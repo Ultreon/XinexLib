@@ -9,6 +9,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=branches/${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - name: Deploy JavaDoc 🚀
         uses: MathieuSoysal/Javadoc-publisher.yml@v2.3.0
         with:
@@ -16,5 +20,5 @@ jobs:
           javadoc-branch: javadoc
           java-version: 21
           project: gradle
-          target-folder: branches/${{ github.head_ref }}
+          target-folder: ${{ steps.extract_branch.outputs.branch }}
           custom-command: chmod +x ./gradlew && ./gradlew javadoc
