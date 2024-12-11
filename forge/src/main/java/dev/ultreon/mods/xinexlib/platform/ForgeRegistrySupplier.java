@@ -43,41 +43,41 @@ public class ForgeRegistrySupplier<R extends T, T> implements IRegistrySupplier<
     }
 
     @Override
-    public boolean is(@NotNull ResourceKey<R> key) {
+    public boolean is(@NotNull ResourceKey<T> key) {
         return this.key.equals(key);
     }
 
     @Override
-    public boolean is(@NotNull Predicate<ResourceKey<R>> predicate) {
-        return predicate.test(key);
+    public boolean is(@NotNull Predicate<ResourceKey<T>> predicate) {
+        return predicate.test((ResourceKey<T>) key);
     }
 
     @Override
-    public boolean is(@NotNull TagKey<R> tagKey) {
-        return registryObject.getHolder().orElseThrow().is(tagKey);
+    public boolean is(@NotNull TagKey<T> tagKey) {
+        return registryObject.getHolder().orElseThrow().is((TagKey<R>) tagKey);
     }
 
     @Override
-    public boolean is(@NotNull Holder<R> holder) {
-        return registryObject.getHolder().orElseThrow().is(holder);
+    public boolean is(@NotNull Holder<T> holder) {
+        return registryObject.getHolder().orElseThrow().is((ResourceKey<R>) holder);
     }
 
     @Override
-    public @NotNull Stream<TagKey<R>> tags() {
-        return registryObject.getHolder().orElseThrow().tags();
+    public Stream<TagKey<T>> tags() {
+        return (Stream) registryObject.getHolder().orElseThrow().tags();
     }
 
     @Override
-    public @NotNull Either<ResourceKey<R>, R> unwrap() {
+    public Either<ResourceKey<T>, T> unwrap() {
         if (registryObject.isPresent()) {
             return Either.right(registryObject.get());
         }
-        return Either.left(key);
+        return Either.left((ResourceKey<T>) key);
     }
 
     @Override
-    public @NotNull Optional<ResourceKey<R>> unwrapKey() {
-        return Optional.of(key);
+    public Optional<ResourceKey<T>> unwrapKey() {
+        return Optional.of((ResourceKey<T>) key);
     }
 
     @Override
@@ -86,8 +86,8 @@ public class ForgeRegistrySupplier<R extends T, T> implements IRegistrySupplier<
     }
 
     @Override
-    public boolean canSerializeIn(@NotNull HolderOwner<R> holderOwner) {
-        return registryObject.getHolder().orElseThrow().canSerializeIn(holderOwner);
+    public boolean canSerializeIn(@NotNull HolderOwner<T> holderOwner) {
+        return registryObject.getHolder().orElseThrow().canSerializeIn((HolderOwner<R>) holderOwner);
     }
 
     @Override

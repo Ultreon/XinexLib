@@ -26,7 +26,6 @@ import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 
 @Mod(Constants.MOD_ID)
-@EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class XinexLib {
     public XinexLib(IEventBus eventBus) {
         /*

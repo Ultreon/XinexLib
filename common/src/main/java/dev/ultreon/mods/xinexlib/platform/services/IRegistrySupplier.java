@@ -11,9 +11,8 @@ import java.util.function.Supplier;
 ///
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
-public interface IRegistrySupplier<R extends T, T> extends Supplier<R>, Holder<R> {
+public interface IRegistrySupplier<R extends T, T> extends Holder<T> {
     /// Gets the value if it is bound
-    @Override
     default R get() {
         return asOptional().orElseThrow(() -> new IllegalStateException("Value " + getId() + " in registry " + registry().key().location() + " is not bound!"));
     }
