@@ -1,5 +1,6 @@
 package dev.ultreon.mods.xinexlib;
 
+import dev.ultreon.mods.xinexlib.event.JVMShutdownEvent;
 import dev.ultreon.mods.xinexlib.event.block.AttemptBlockSetEvent;
 import dev.ultreon.mods.xinexlib.event.block.BlockSetEvent;
 import dev.ultreon.mods.xinexlib.event.entity.EntitySpawnEvent;
@@ -55,9 +56,15 @@ public class CommonClass {
 
     /// This method is invoked by the provided mod loader when it is ready to load the XinexLib mod.
     public static void init() {
+        Runtime.getRuntime().addShutdownHook(new Thread(CommonClass::shutdown));
+
         if (Services.isDevelopmentEnvironment() && "true".equals(System.getProperty("xinexlib.dev"))) {
             initDev();
         }
+    }
+
+    private static void shutdown() {
+        EventSystem.MAIN.publish(JVMShutdownEvent.INSTANCE);
     }
 
     private static void initDev() {
