@@ -16,5 +16,5 @@ jobs:
           javadoc-branch: javadoc
           java-version: 21
           project: gradle
-          target-folder: ${{ github.ref }}
+          target-folder: branches/${{ github.head_ref }}
           custom-command: chmod +x ./gradlew && ./gradlew javadoc
