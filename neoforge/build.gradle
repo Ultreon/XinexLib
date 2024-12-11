@@ -1,0 +1,58 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.neoforged.moddev'
+}
+
+neoForge {
+    version = neoforge_version
+    // Automatically enable neoforge AccessTransformers if the file exists
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.add(at.absolutePath)
+    }
+    parchment {
+        minecraftVersion = parchment_minecraft
+        mappingsVersion = parchment_version
+    }
+    runs {
+        configureEach {
+            systemProperty "neoforge.enabledGameTestNamespaces", mod_id.toString()
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+            systemProperty "xinexlib.dev", "true"
+        }
+        client {
+            client()
+        }
+        data {
+            data()
+        }
+        server {
+            server()
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    jarJar(implementation(group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5')) {
+        version {
+            // The version range your mod is actually compatible with.
+            // Note that you may receive a *lower* version than your preferred if another
+            // Mod is only compatible up to 1.7.24, for example, your mod might get 1.7.24 at runtime.
+            strictly '[3.5.5, 4.0.0)'
+            prefer '3.5.5' // The version actually used in your dev workspace
+        }
+    }
+    clientAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
+    serverAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
+    dataAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
+
+    implementation group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'
+    annotationProcessor group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
