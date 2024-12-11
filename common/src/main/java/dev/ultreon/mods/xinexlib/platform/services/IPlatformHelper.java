@@ -1,6 +1,8 @@
 package dev.ultreon.mods.xinexlib.platform.services;
 
 import dev.ultreon.mods.xinexlib.ModPlatform;
+import dev.ultreon.mods.xinexlib.platform.components.ComponentManager;
+import dev.ultreon.mods.xinexlib.platform.components.IComponentManager;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
@@ -34,4 +36,12 @@ public interface IPlatformHelper {
     /// @param modId The mod id
     /// @return The registrar manager
     IRegistrarManager getRegistrarManager(String modId);
+
+    /// Gets the component manager for the given mod id
+    ///
+    /// @param modId The mod id
+    /// @return The component manager
+    default IComponentManager getComponentManager(String modId) {
+        return new ComponentManager(modId);
+    }
 }

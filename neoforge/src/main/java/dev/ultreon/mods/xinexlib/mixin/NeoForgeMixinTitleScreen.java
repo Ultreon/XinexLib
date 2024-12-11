@@ -9,10 +9,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TitleScreen.class)
-public class MixinTitleScreen {
+public class NeoForgeMixinTitleScreen {
 
     @Inject(at = @At("HEAD"), method = "init()V")
     private void init(CallbackInfo info) {
-
+        Constants.LOG.info("This line is printed by the XinexLib mixin from NeoForge!");
+        Constants.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
     }
 }

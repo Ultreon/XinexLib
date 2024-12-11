@@ -4,7 +4,6 @@ import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseEntityEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
 import dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent;
-import dev.ultreon.mods.xinexlib.event.player.EventResult;
 import dev.ultreon.mods.xinexlib.event.player.PlayerBreakBlockEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerStartedEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerStartingEvent;

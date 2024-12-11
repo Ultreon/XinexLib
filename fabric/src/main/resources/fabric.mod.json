@@ -21,6 +21,9 @@
   "entrypoints": {
     "main": [
       "dev.ultreon.mods.xinexlib.XinexLib"
+    ],
+    "cardinal-components-entity": [
+      "dev.ultreon.mods.xinexlib.platform.components.EntityComponents"
     ]
   },
   "mixins": [
