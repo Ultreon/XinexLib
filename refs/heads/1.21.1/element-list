@@ -1,0 +1,15 @@
+dev.ultreon.mods.xinexlib
+dev.ultreon.mods.xinexlib.client
+dev.ultreon.mods.xinexlib.client.event
+dev.ultreon.mods.xinexlib.event
+dev.ultreon.mods.xinexlib.event.block
+dev.ultreon.mods.xinexlib.event.entity
+dev.ultreon.mods.xinexlib.event.interact
+dev.ultreon.mods.xinexlib.event.level
+dev.ultreon.mods.xinexlib.event.player
+dev.ultreon.mods.xinexlib.event.server
+dev.ultreon.mods.xinexlib.event.system
+dev.ultreon.mods.xinexlib.item
+dev.ultreon.mods.xinexlib.mixin
+dev.ultreon.mods.xinexlib.platform
+dev.ultreon.mods.xinexlib.platform.services
