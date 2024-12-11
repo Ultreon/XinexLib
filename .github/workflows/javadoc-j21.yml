@@ -17,4 +17,4 @@ jobs:
           java-version: 21
           project: gradle
           target-folder: ${{ github.ref }}
-          custom-command: ./gradlew javadoc
+          custom-command: chmod +x ./gradlew && ./gradlew javadoc
