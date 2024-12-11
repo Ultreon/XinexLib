@@ -56,38 +56,38 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements IRegistr
     }
 
     @Override
-    public boolean is(ResourceKey<R> resourceKey) {
+    public boolean is(ResourceKey<T> resourceKey) {
         return this.key.equals(resourceKey);
     }
 
     @Override
-    public boolean is(Predicate<ResourceKey<R>> predicate) {
-        return predicate.test(this.key);
+    public boolean is(Predicate<ResourceKey<T>> predicate) {
+        return predicate.test((ResourceKey<T>) this.key);
     }
 
     @Override
-    public boolean is(TagKey<R> tagKey) {
+    public boolean is(TagKey<T> tagKey) {
         return false;
     }
 
     @Override
-    public boolean is(Holder<R> holder) {
+    public boolean is(Holder<T> holder) {
         return false;
     }
 
     @Override
-    public @NotNull Stream<TagKey<R>> tags() {
+    public Stream<TagKey<T>> tags() {
         return Stream.empty();
     }
 
     @Override
-    public @NotNull Either<ResourceKey<R>, R> unwrap() {
+    public Either<ResourceKey<T>, T> unwrap() {
         return Either.right(value);
     }
 
     @Override
-    public Optional<ResourceKey<R>> unwrapKey() {
-        return Optional.of(key);
+    public Optional<ResourceKey<T>> unwrapKey() {
+        return Optional.of((ResourceKey<T>) key);
     }
 
     @Override
@@ -96,7 +96,7 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements IRegistr
     }
 
     @Override
-    public boolean canSerializeIn(HolderOwner<R> owner) {
+    public boolean canSerializeIn(HolderOwner<T> owner) {
         return owner instanceof Registry;
     }
 
