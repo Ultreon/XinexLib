@@ -4,3 +4,19 @@ plugins {
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id 'net.neoforged.moddev' version '0.1.110' apply false
 }
+
+mkdir file("build/tmp/javadoc/collect")
+mkdir file("build/docs/javadoc")
+
+evaluationDependsOn(":common")
+
+tasks.register("javadoc", Copy) {
+    dependsOn "common:javadoc"
+
+    doFirst {
+        mkdir file("build/docs/javadoc")
+    }
+
+    from(project(":common").javadoc.outputs)
+    into(file("build/docs/javadoc"))
+}
