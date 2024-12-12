@@ -2,6 +2,7 @@ dev.ultreon.mods.xinexlib
 dev.ultreon.mods.xinexlib.access
 dev.ultreon.mods.xinexlib.client
 dev.ultreon.mods.xinexlib.client.event
+dev.ultreon.mods.xinexlib.components
 dev.ultreon.mods.xinexlib.event
 dev.ultreon.mods.xinexlib.event.block
 dev.ultreon.mods.xinexlib.event.entity
@@ -14,5 +15,5 @@ dev.ultreon.mods.xinexlib.item
 dev.ultreon.mods.xinexlib.mixin
 dev.ultreon.mods.xinexlib.nbt
 dev.ultreon.mods.xinexlib.platform
-dev.ultreon.mods.xinexlib.platform.components
 dev.ultreon.mods.xinexlib.platform.services
+dev.ultreon.mods.xinexlib.tabs
