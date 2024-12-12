@@ -52,6 +52,7 @@ loadScripts(document, 'script');</script>
 <span class="package-hierarchy-label">Package Hierarchies:</span>
 <ul class="horizontal contents-list">
 <li><a href="dev/ultreon/mods/xinexlib/package-tree.html">dev.ultreon.mods.xinexlib</a>, </li>
+<li><a href="dev/ultreon/mods/xinexlib/access/package-tree.html">dev.ultreon.mods.xinexlib.access</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/client/package-tree.html">dev.ultreon.mods.xinexlib.client</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/client/event/package-tree.html">dev.ultreon.mods.xinexlib.client.event</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/event/package-tree.html">dev.ultreon.mods.xinexlib.event</a>, </li>
@@ -64,7 +65,9 @@ loadScripts(document, 'script');</script>
 <li><a href="dev/ultreon/mods/xinexlib/event/system/package-tree.html">dev.ultreon.mods.xinexlib.event.system</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/item/package-tree.html">dev.ultreon.mods.xinexlib.item</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/mixin/package-tree.html">dev.ultreon.mods.xinexlib.mixin</a>, </li>
+<li><a href="dev/ultreon/mods/xinexlib/nbt/package-tree.html">dev.ultreon.mods.xinexlib.nbt</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/platform/package-tree.html">dev.ultreon.mods.xinexlib.platform</a>, </li>
+<li><a href="dev/ultreon/mods/xinexlib/platform/components/package-tree.html">dev.ultreon.mods.xinexlib.platform.components</a>, </li>
 <li><a href="dev/ultreon/mods/xinexlib/platform/services/package-tree.html">dev.ultreon.mods.xinexlib.platform.services</a></li>
 </ul>
 <section class="hierarchy">
@@ -85,7 +88,17 @@ loadScripts(document, 'script');</script>
 <li class="circle">dev.ultreon.mods.xinexlib.client.event.<a href="dev/ultreon/mods/xinexlib/client/event/ClientStartedEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.client.event">ClientStartedEvent</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.client.event.<a href="dev/ultreon/mods/xinexlib/client/event/ClientStoppingEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.client.event">ClientStoppingEvent</a> (implements dev.ultreon.mods.xinexlib.event.system.<a href="dev/ultreon/mods/xinexlib/event/system/Cancelable.html" title="interface in dev.ultreon.mods.xinexlib.event.system">Cancelable</a>)</li>
 <li class="circle">dev.ultreon.mods.xinexlib.<a href="dev/ultreon/mods/xinexlib/CommonClass.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib">CommonClass</a></li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/ComponentBuilder.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.platform.components">ComponentBuilder</a>&lt;O,<wbr>T&gt;
+<ul>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/BlockEntityComponentBuilder.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.platform.components">BlockEntityComponentBuilder</a>&lt;T&gt;</li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/EntityComponentBuilder.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.platform.components">EntityComponentBuilder</a>&lt;T&gt;</li>
+</ul>
+</li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/ComponentManager.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.platform.components">ComponentManager</a> (implements dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/IComponentManager.html" title="interface in dev.ultreon.mods.xinexlib.platform.components">IComponentManager</a>)</li>
 <li class="circle">dev.ultreon.mods.xinexlib.<a href="dev/ultreon/mods/xinexlib/Constants.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib">Constants</a></li>
+<li class="circle">dev.ultreon.mods.xinexlib.nbt.<a href="dev/ultreon/mods/xinexlib/nbt/DataKeys.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.nbt">DataKeys</a></li>
+<li class="circle">dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntityLoadEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.event.entity">EntityLoadEvent</a> (implements dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a>)</li>
+<li class="circle">dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntitySaveEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.event.entity">EntitySaveEvent</a> (implements dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a>)</li>
 <li class="circle">dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntitySpawnEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.event.entity">EntitySpawnEvent</a> (implements dev.ultreon.mods.xinexlib.event.system.<a href="dev/ultreon/mods/xinexlib/event/system/Cancelable.html" title="interface in dev.ultreon.mods.xinexlib.event.system">Cancelable</a>, dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a>, dev.ultreon.mods.xinexlib.event.level.<a href="dev/ultreon/mods/xinexlib/event/level/ServerLevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">ServerLevelEvent</a>)
 <ul>
 <li class="circle">dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/EntitySpawnEvent.ExistingSpawnEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.event.entity">EntitySpawnEvent.ExistingSpawnEvent</a></li>
@@ -112,6 +125,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">dev.ultreon.mods.xinexlib.event.interact.<a href="dev/ultreon/mods/xinexlib/event/interact/ItemInteractEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.event.interact">ItemInteractEvent</a> (implements dev.ultreon.mods.xinexlib.event.<a href="dev/ultreon/mods/xinexlib/event/CancelableValue.html" title="interface in dev.ultreon.mods.xinexlib.event">CancelableValue</a>&lt;T&gt;)</li>
 <li class="circle">dev.ultreon.mods.xinexlib.event.entity.<a href="dev/ultreon/mods/xinexlib/event/entity/LivingHurtEvent.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.event.entity">LivingHurtEvent</a> (implements dev.ultreon.mods.xinexlib.event.system.<a href="dev/ultreon/mods/xinexlib/event/system/Cancelable.html" title="interface in dev.ultreon.mods.xinexlib.event.system">Cancelable</a>)</li>
 <li class="circle">dev.ultreon.mods.xinexlib.mixin.<a href="dev/ultreon/mods/xinexlib/mixin/MixinBlockItem.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.mixin">MixinBlockItem</a></li>
+<li class="circle">dev.ultreon.mods.xinexlib.mixin.<a href="dev/ultreon/mods/xinexlib/mixin/MixinEntity.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.mixin">MixinEntity</a> (implements dev.ultreon.mods.xinexlib.access.<a href="dev/ultreon/mods/xinexlib/access/IEntityComponentAccess.html" title="interface in dev.ultreon.mods.xinexlib.access">IEntityComponentAccess</a>)</li>
 <li class="circle">dev.ultreon.mods.xinexlib.mixin.<a href="dev/ultreon/mods/xinexlib/mixin/MixinLevel.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.mixin">MixinLevel</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.mixin.<a href="dev/ultreon/mods/xinexlib/mixin/MixinLivingEntity.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.mixin">MixinLivingEntity</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.mixin.<a href="dev/ultreon/mods/xinexlib/mixin/MixinMinecraft.html" class="type-name-link" title="class in dev.ultreon.mods.xinexlib.mixin">MixinMinecraft</a></li>
@@ -147,11 +161,18 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">dev.ultreon.mods.xinexlib.event.system.<a href="dev/ultreon/mods/xinexlib/event/system/Cancelable.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.event.system">Cancelable</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.event.<a href="dev/ultreon/mods/xinexlib/event/CancelableValue.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.event">CancelableValue</a>&lt;T&gt;</li>
+<li class="circle">dev.ultreon.mods.xinexlib.nbt.<a href="dev/ultreon/mods/xinexlib/nbt/DataKey.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.nbt">DataKey</a>&lt;E&gt;</li>
 <li class="circle">net.minecraft.core.Holder&lt;T&gt;
 <ul>
 <li class="circle">dev.ultreon.mods.xinexlib.platform.services.<a href="dev/ultreon/mods/xinexlib/platform/services/IRegistrySupplier.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.services">IRegistrySupplier</a>&lt;R,<wbr>T&gt;</li>
 </ul>
 </li>
+<li class="circle">dev.ultreon.mods.xinexlib.access.<a href="dev/ultreon/mods/xinexlib/access/IBlockEntityComponentAccess.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.access">IBlockEntityComponentAccess</a></li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/IComponent.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.components">IComponent</a>&lt;O&gt;</li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/IComponentFactory.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.components">IComponentFactory</a>&lt;O,<wbr>T&gt;</li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/IComponentHolder.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.components">IComponentHolder</a>&lt;O,<wbr>T&gt;</li>
+<li class="circle">dev.ultreon.mods.xinexlib.platform.components.<a href="dev/ultreon/mods/xinexlib/platform/components/IComponentManager.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.components">IComponentManager</a></li>
+<li class="circle">dev.ultreon.mods.xinexlib.access.<a href="dev/ultreon/mods/xinexlib/access/IEntityComponentAccess.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.access">IEntityComponentAccess</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.platform.services.<a href="dev/ultreon/mods/xinexlib/platform/services/IPlatformHelper.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.services">IPlatformHelper</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.platform.services.<a href="dev/ultreon/mods/xinexlib/platform/services/IRegistrarManager.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.platform.services">IRegistrarManager</a></li>
 <li class="circle">dev.ultreon.mods.xinexlib.event.block.<a href="dev/ultreon/mods/xinexlib/event/block/ItemEvent.html" class="type-name-link" title="interface in dev.ultreon.mods.xinexlib.event.block">ItemEvent</a>
