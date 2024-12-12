@@ -7,7 +7,7 @@
 
   ],
   "client": [
-    "NeoForgeMixinTitleScreen"
+
   ],
   "server": [],
   "injectors": {

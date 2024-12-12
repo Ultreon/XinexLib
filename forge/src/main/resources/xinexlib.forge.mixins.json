@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_18",
   "mixins": [],
   "client": [
-    "ForgeMixinTitleScreen"
+
   ],
   "server": [],
   "injectors": {
