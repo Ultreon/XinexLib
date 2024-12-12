@@ -3,6 +3,7 @@ package dev.ultreon.mods.xinexlib.platform;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -34,6 +35,11 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
             throw new IllegalStateException("No registrar manager found for mod " + modId + " did you register the mod?");
         }
         return iRegistrarManager;
+    }
+
+    @Override
+    public ICreativeModeTabBuilder creativeTabBuilder() {
+        return new NeoForgeCreativeTabBuilder();
     }
 
     public void registerMod(String modId, IEventBus modEventBus) {

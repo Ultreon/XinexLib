@@ -5,6 +5,7 @@ import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.components.IComponentManager;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 
 import java.util.ServiceLoader;
 
@@ -59,5 +60,9 @@ public class Services {
 
     public static IComponentManager getComponentManager(String modId) {
         return PLATFORM.getComponentManager(modId);
+    }
+
+    public static ICreativeModeTabBuilder creativeTabBuilder() {
+        return PLATFORM.creativeTabBuilder();
     }
 }

@@ -37,7 +37,9 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -105,15 +107,23 @@ public class CommonClass {
         var testItem = itemRegistrar.register("test_item", () -> new Item(new Item.Properties().stacksTo(1)));
         var testBlockItem = itemRegistrar.register("test_block_item", () -> new XinexBlockItem(testBlock, new Item.Properties().stacksTo(1)));
         var secondBlockItem = itemRegistrar.register("second_block_item", () -> new XinexBlockItem(secondBlock, new Item.Properties().stacksTo(1)));
+        IRegistrar<CreativeModeTab> creativeModeTabRegistrar = registrarManager.getRegistrar(Registries.CREATIVE_MODE_TAB);
+        var testTab = creativeModeTabRegistrar.register("test_tab", () -> Services.creativeTabBuilder().icon(() -> new ItemStack(testBlockItem)).displayItems((itemDisplayParameters, output) -> {
+            output.accept(new ItemStack(testItem));
+            output.accept(new ItemStack(testBlockItem));
+            output.accept(new ItemStack(secondBlockItem));
+        }).build());
 
         Constants.LOG.info("The ID for test_block is {}", testBlock.getId());
         Constants.LOG.info("The ID for test_item is {}", testItem.getId());
         Constants.LOG.info("The ID for test_block_item is {}", testBlockItem.getId());
         Constants.LOG.info("The ID for second_block is {}", secondBlock.getId());
         Constants.LOG.info("The ID for second_block_item is {}", secondBlockItem.getId());
+        Constants.LOG.info("The ID for test_tab is {}", testTab.getId());
 
         blockRegistrar.load();
         itemRegistrar.load();
+        creativeModeTabRegistrar.load();
 
         EventSystem.MAIN.on(PlayerPlaceBlockEvent.class, event -> {
             if (!event.getState().is(testBlock)) return;

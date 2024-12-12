@@ -3,6 +3,7 @@ package dev.ultreon.mods.xinexlib.platform;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricPlatformHelper implements IPlatformHelper {
@@ -25,5 +26,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public IRegistrarManager getRegistrarManager(String modId) {
         return new FabricRegistrarManager(modId);
+    }
+
+    @Override
+    public ICreativeModeTabBuilder creativeTabBuilder() {
+        return new FabricCreativeTabBuilder();
     }
 }

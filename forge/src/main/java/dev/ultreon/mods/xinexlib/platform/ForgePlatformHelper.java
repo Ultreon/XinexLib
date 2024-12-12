@@ -3,6 +3,7 @@ package dev.ultreon.mods.xinexlib.platform;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 
@@ -26,5 +27,10 @@ public class ForgePlatformHelper implements IPlatformHelper {
     @Override
     public IRegistrarManager getRegistrarManager(String modId) {
         return new ForgeRegistrarManager(modId);
+    }
+
+    @Override
+    public ICreativeModeTabBuilder creativeTabBuilder() {
+        return new ForgeCreativeTabBuilder();
     }
 }

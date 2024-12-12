@@ -3,6 +3,7 @@ package dev.ultreon.mods.xinexlib.platform.services;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.components.ComponentManager;
 import dev.ultreon.mods.xinexlib.components.IComponentManager;
+import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
@@ -44,4 +45,6 @@ public interface IPlatformHelper {
     default IComponentManager getComponentManager(String modId) {
         return new ComponentManager(modId);
     }
+
+    ICreativeModeTabBuilder creativeTabBuilder();
 }
