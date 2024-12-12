@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.platform.components;
+package dev.ultreon.mods.xinexlib.components;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

@@ -1,6 +1,7 @@
 package dev.ultreon.mods.xinexlib;
 
 import dev.ultreon.mods.xinexlib.access.IEntityComponentAccess;
+import dev.ultreon.mods.xinexlib.components.*;
 import dev.ultreon.mods.xinexlib.event.JVMShutdownEvent;
 import dev.ultreon.mods.xinexlib.event.block.AttemptBlockSetEvent;
 import dev.ultreon.mods.xinexlib.event.block.BlockSetEvent;
@@ -18,7 +19,6 @@ import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.item.XinexBlockItem;
 import dev.ultreon.mods.xinexlib.nbt.DataKeys;
 import dev.ultreon.mods.xinexlib.platform.Services;
-import dev.ultreon.mods.xinexlib.platform.components.*;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrar;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
 import net.minecraft.core.HolderLookup;

@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.platform.components;
+package dev.ultreon.mods.xinexlib.components;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;

@@ -1,6 +1,6 @@
 package dev.ultreon.mods.xinexlib.access;
 
-import dev.ultreon.mods.xinexlib.platform.components.IComponent;
+import dev.ultreon.mods.xinexlib.components.IComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 

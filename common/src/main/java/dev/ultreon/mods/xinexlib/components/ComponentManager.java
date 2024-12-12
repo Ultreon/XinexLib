@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.platform.components;
+package dev.ultreon.mods.xinexlib.components;
 
 import dev.ultreon.mods.xinexlib.Constants;
 import dev.ultreon.mods.xinexlib.access.IEntityComponentAccess;

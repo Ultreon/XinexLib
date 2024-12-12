@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.platform.components;
+package dev.ultreon.mods.xinexlib.components;
 
 @FunctionalInterface
 public interface IComponentFactory<O, T extends IComponent<O>> {

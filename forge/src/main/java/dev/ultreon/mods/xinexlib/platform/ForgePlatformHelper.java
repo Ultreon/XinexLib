@@ -1,7 +1,6 @@
 package dev.ultreon.mods.xinexlib.platform;
 
 import dev.ultreon.mods.xinexlib.ModPlatform;
-import dev.ultreon.mods.xinexlib.platform.components.IComponentManager;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
 import net.minecraftforge.fml.ModList;

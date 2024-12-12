@@ -1,8 +1,8 @@
 package dev.ultreon.mods.xinexlib.platform.services;
 
 import dev.ultreon.mods.xinexlib.ModPlatform;
-import dev.ultreon.mods.xinexlib.platform.components.ComponentManager;
-import dev.ultreon.mods.xinexlib.platform.components.IComponentManager;
+import dev.ultreon.mods.xinexlib.components.ComponentManager;
+import dev.ultreon.mods.xinexlib.components.IComponentManager;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
