@@ -1,8 +1,6 @@
-package dev.ultreon.mods.xinexlib.platform;
+package dev.ultreon.mods.xinexlib.registrar;
 
 import com.mojang.datafixers.util.Either;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrar;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrySupplier;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;

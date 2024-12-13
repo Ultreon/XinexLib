@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.platform.services;
+package dev.ultreon.mods.xinexlib.registrar;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;

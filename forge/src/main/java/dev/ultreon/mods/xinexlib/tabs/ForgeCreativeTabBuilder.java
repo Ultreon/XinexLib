@@ -1,6 +1,5 @@
-package dev.ultreon.mods.xinexlib.platform;
+package dev.ultreon.mods.xinexlib.tabs;
 
-import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -8,10 +7,10 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public class NeoForgeCreativeTabBuilder implements ICreativeModeTabBuilder {
+public class ForgeCreativeTabBuilder implements ICreativeModeTabBuilder {
     private final CreativeModeTab.Builder builder;
 
-    public NeoForgeCreativeTabBuilder() {
+    public ForgeCreativeTabBuilder() {
         this.builder = CreativeModeTab.builder();
     }
 

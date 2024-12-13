@@ -1,6 +1,5 @@
-package dev.ultreon.mods.xinexlib.platform;
+package dev.ultreon.mods.xinexlib.tabs;
 
-import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

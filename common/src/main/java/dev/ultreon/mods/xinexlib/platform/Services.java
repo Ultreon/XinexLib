@@ -4,11 +4,14 @@ import dev.ultreon.mods.xinexlib.Constants;
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.components.IComponentManager;
+import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
+import dev.ultreon.mods.xinexlib.network.INetworker;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
 
 import java.util.ServiceLoader;
+import java.util.function.Consumer;
 
 /*
  Service loaders are a built-in Java feature that allow us to locate implementations of an interface that vary from one
@@ -69,5 +72,13 @@ public class Services {
 
     public static Env getEnv() {
         return PLATFORM.getEnv();
+    }
+
+    public static INetworker createNetworker(String modId, Consumer<INetworkRegistry> registrant) {
+        return PLATFORM.createNetworker(modId, registrant);
+    }
+
+    public static void registerCommand(ICommandRegistrant registrant) {
+        PLATFORM.registerCommand(registrant);
     }
 }

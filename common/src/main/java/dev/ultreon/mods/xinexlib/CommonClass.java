@@ -1,7 +1,13 @@
 package dev.ultreon.mods.xinexlib;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.ultreon.mods.xinexlib.access.IEntityComponentAccess;
 import dev.ultreon.mods.xinexlib.components.*;
+import dev.ultreon.mods.xinexlib.dev.commands.DevSendMessageCommand;
+import dev.ultreon.mods.xinexlib.dev.network.packets.PacketToClient;
+import dev.ultreon.mods.xinexlib.dev.network.packets.PacketToServer;
 import dev.ultreon.mods.xinexlib.event.JVMShutdownEvent;
 import dev.ultreon.mods.xinexlib.event.block.AttemptBlockSetEvent;
 import dev.ultreon.mods.xinexlib.event.block.BlockSetEvent;
@@ -18,9 +24,12 @@ import dev.ultreon.mods.xinexlib.event.server.ServerChatEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.item.XinexBlockItem;
 import dev.ultreon.mods.xinexlib.nbt.DataKeys;
+import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
+import dev.ultreon.mods.xinexlib.network.INetworker;
 import dev.ultreon.mods.xinexlib.platform.Services;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrar;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.registrar.IRegistrar;
+import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -112,7 +121,7 @@ public class CommonClass {
             output.accept(new ItemStack(testItem));
             output.accept(new ItemStack(testBlockItem));
             output.accept(new ItemStack(secondBlockItem));
-        }).build());
+        }).title(Component.literal("Test Tab")).build());
 
         Constants.LOG.info("The ID for test_block is {}", testBlock.getId());
         Constants.LOG.info("The ID for test_item is {}", testItem.getId());
@@ -251,5 +260,29 @@ public class CommonClass {
         });
 
         Constants.LOG.info("The developer mode is enabled!");
+
+        INetworker networker = Services.createNetworker(Constants.MOD_ID, iNetworkRegistry -> {
+            iNetworkRegistry.registerClient("packet2client", PacketToClient.class, PacketToClient::read);
+//            iNetworkRegistry.registerServer("packet2server", PacketToServer.class, PacketToServer::read);
+        });
+
+        Services.registerCommand((dispatcher, registryAccess, environment) -> {
+            dispatcher.register(Commands.literal("xinex-dev:packets")
+                    .then(Commands.literal("packet")
+                            .then(Commands.argument("message", StringArgumentType.greedyString())
+                                    .executes(context -> {
+                                        try {
+                                            String string = StringArgumentType.getString(context, "message");
+                                            PacketToClient packet = new PacketToClient(string);
+                                            networker.sendToClient(packet, context.getSource().getPlayerOrException());
+                                        } catch (Exception e) {
+                                            Constants.LOG.error("Failed to send packet", e);
+                                        }
+                                        return 1;
+                                    })
+                            )
+                    )
+            );
+        });
     }
 }

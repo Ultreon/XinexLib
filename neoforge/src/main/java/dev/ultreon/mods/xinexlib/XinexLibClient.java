@@ -9,12 +9,13 @@ public class XinexLibClient {
     }
 
     public static void init() {
+        ClientClass.init();
         if (Services.isDevelopmentEnvironment() && "true".equals(System.getProperty("xinexlib.dev"))) {
             XinexLibClient.initDev();
         }
     }
 
     private static void initDev() {
-        ClientClass.init();
+
     }
 }

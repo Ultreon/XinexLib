@@ -1,10 +1,16 @@
 package dev.ultreon.mods.xinexlib.platform.services;
 
+import dev.ultreon.mods.xinexlib.network.INetworker;
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.components.ComponentManager;
 import dev.ultreon.mods.xinexlib.components.IComponentManager;
+import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
+import dev.ultreon.mods.xinexlib.platform.ICommandRegistrant;
+import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
+
+import java.util.function.Consumer;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
@@ -50,4 +56,8 @@ public interface IPlatformHelper {
     ICreativeModeTabBuilder creativeTabBuilder();
 
     Env getEnv();
+
+    INetworker createNetworker(String modId, Consumer<INetworkRegistry> registrant);
+
+    void registerCommand(ICommandRegistrant registrant);
 }

@@ -1,13 +1,32 @@
 package dev.ultreon.mods.xinexlib.platform;
 
+import com.mojang.brigadier.CommandDispatcher;
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
+import dev.ultreon.mods.xinexlib.network.FabricNetworker;
+import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
+import dev.ultreon.mods.xinexlib.network.INetworker;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.registrar.FabricRegistrarManager;
+import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.FabricCreativeTabBuilder;
 import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class FabricPlatformHelper implements IPlatformHelper {
+    private final List<ICommandRegistrant> commandRegistrants = new ArrayList<>();
+
+    public FabricPlatformHelper() {
+        CommandRegistrationCallback.EVENT.register(this::register);
+    }
 
     @Override
     public ModPlatform getPlatformName() {
@@ -40,5 +59,21 @@ public class FabricPlatformHelper implements IPlatformHelper {
             case CLIENT -> Env.CLIENT;
             case SERVER -> Env.SERVER;
         };
+    }
+
+    @Override
+    public INetworker createNetworker(String modId, Consumer<INetworkRegistry> registrant) {
+        return new FabricNetworker(modId, registrant);
+    }
+
+    @Override
+    public void registerCommand(ICommandRegistrant registrant) {
+        this.commandRegistrants.add(registrant);
+    }
+
+    private void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registryAccess, Commands.CommandSelection environment) {
+        for (ICommandRegistrant registrant : commandRegistrants) {
+            registrant.register(dispatcher, registryAccess, environment);
+        }
     }
 }

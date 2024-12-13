@@ -1,7 +1,5 @@
-package dev.ultreon.mods.xinexlib.platform;
+package dev.ultreon.mods.xinexlib.registrar;
 
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrar;
-import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;

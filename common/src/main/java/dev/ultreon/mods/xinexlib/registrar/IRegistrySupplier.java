@@ -1,11 +1,10 @@
-package dev.ultreon.mods.xinexlib.platform.services;
+package dev.ultreon.mods.xinexlib.registrar;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /// A registry supplier for a registry value
 ///
