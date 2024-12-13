@@ -89,6 +89,10 @@ loadScripts(document, 'script');</script>
 <dt>All Superinterfaces:</dt>
 <dd><code><a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></code>, <code><a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></code>, <code><a href="../entity/PositionEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">PositionEvent</a></code>, <code><a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></code></dd>
 </dl>
+<dl class="notes">
+<dt>All Known Implementing Classes:</dt>
+<dd><code><a href="../server/ServerPlayerQuitEvent.html" title="class in dev.ultreon.mods.xinexlib.event.server">ServerPlayerQuitEvent</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ServerPlayerEvent</span><span class="extends-implements">
 extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a>, <a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></span></div>
@@ -100,7 +104,7 @@ extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab5" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab5', 3)" class="table-tab">Default Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -109,6 +113,9 @@ extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>net.minecraft.server.level.ServerPlayer</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.server.MinecraftServer</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getServer()" class="member-name-link">getServer</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -118,9 +125,6 @@ extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-dev.ultreon.mods.xinexlib.event.player.PlayerEvent">Methods inherited from interface&nbsp;dev.ultreon.mods.xinexlib.event.player.<a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></h3>
 <code><a href="PlayerEvent.html#getEntity()">getEntity</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-dev.ultreon.mods.xinexlib.event.player.ServerEvent">Methods inherited from interface&nbsp;dev.ultreon.mods.xinexlib.event.player.<a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></h3>
-<code><a href="ServerEvent.html#getServer()">getServer</a></code></div>
 </section>
 </li>
 </ul>
@@ -139,6 +143,16 @@ extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="PlayerEvent.html#getPlayer()">getPlayer</a></code>&nbsp;in interface&nbsp;<code><a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getServer()">
+<h3>getServer</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">net.minecraft.server.MinecraftServer</span>&nbsp;<span class="element-name">getServer</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="ServerEvent.html#getServer()">getServer</a></code>&nbsp;in interface&nbsp;<code><a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></code></dd>
 </dl>
 </section>
 </li>
