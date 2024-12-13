@@ -1,5 +1,6 @@
 package dev.ultreon.mods.xinexlib.platform;
 
+import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
 import dev.ultreon.mods.xinexlib.platform.services.IRegistrarManager;
@@ -31,5 +32,13 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public ICreativeModeTabBuilder creativeTabBuilder() {
         return new FabricCreativeTabBuilder();
+    }
+
+    @Override
+    public Env getEnv() {
+        return switch (FabricLoader.getInstance().getEnvironmentType()) {
+            case CLIENT -> Env.CLIENT;
+            case SERVER -> Env.SERVER;
+        };
     }
 }

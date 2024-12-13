@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_18",
   "mixins": [
     "MixinBlockItem",
+    "MixinConnection",
     "MixinEntity",
     "MixinLevel",
     "MixinLivingEntity",
@@ -13,6 +14,7 @@
     "MixinServerLevel"
   ],
   "client": [
+    "MixinClientPacketListener",
     "MixinMinecraft"
   ],
   "server": [],

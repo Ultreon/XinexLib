@@ -1,6 +1,7 @@
 package dev.ultreon.mods.xinexlib.platform;
 
 import dev.ultreon.mods.xinexlib.Constants;
+import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.components.IComponentManager;
 import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
@@ -64,5 +65,9 @@ public class Services {
 
     public static ICreativeModeTabBuilder creativeTabBuilder() {
         return PLATFORM.creativeTabBuilder();
+    }
+
+    public static Env getEnv() {
+        return PLATFORM.getEnv();
     }
 }

@@ -56,6 +56,11 @@ public abstract class MixinPlayerList {
         ));
     }
 
+    @Inject(method = "remove", at = @At(value = "HEAD"))
+    private void handlePlayerLoggedIn(ServerPlayer pPlayer, CallbackInfo ci) {
+        EventSystem.MAIN.publish(new ServerPlayerQuitEvent(pPlayer));
+    }
+
     @Inject(method = "canPlayerLogin", at = @At(value = "HEAD"), cancellable = true)
     private void handleLoginVerifying(SocketAddress pSocketAddress, GameProfile pGameProfile, CallbackInfoReturnable<Component> cir) {
         ServerPlayerVerifyLoginEvent event = EventSystem.MAIN.publish(new ServerPlayerVerifyLoginEvent(
