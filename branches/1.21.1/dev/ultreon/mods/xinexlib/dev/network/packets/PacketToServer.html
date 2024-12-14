@@ -92,12 +92,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../network/endpoint/IServerEndpoint.html" title="interface in dev.ultreon.mods.xinexlib.network.endpoint">IServerEndpoint</a></code>, <code><a href="../../../network/packet/IPacket.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">IPacket</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</code>, <code><a href="../../../network/packet/IPacketToServer.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">IPacketToServer</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</code></dd>
+<dd><code><a href="../../../network/endpoint/ServerEndpoint.html" title="interface in dev.ultreon.mods.xinexlib.network.endpoint">ServerEndpoint</a></code>, <code><a href="../../../network/packet/Packet.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">Packet</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</code>, <code><a href="../../../network/packet/PacketToServer.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">PacketToServer</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">PacketToServer</span>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/UUID.html" title="class or interface in java.util" class="external-link">UUID</a>&nbsp;uuid)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
-implements <a href="../../../network/packet/IPacketToServer.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">IPacketToServer</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</span></div>
+implements <a href="../../../network/packet/PacketToServer.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">PacketToServer</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -133,7 +133,7 @@ implements <a href="../../../network/packet/IPacketToServer.html" title="interfa
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#handle(dev.ultreon.mods.xinexlib.network.INetworker,net.minecraft.server.level.ServerPlayer)" class="member-name-link">handle</a><wbr>(<a href="../../../network/INetworker.html" title="interface in dev.ultreon.mods.xinexlib.network">INetworker</a>&nbsp;connection,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#handle(dev.ultreon.mods.xinexlib.network.Networker,net.minecraft.server.level.ServerPlayer)" class="member-name-link">handle</a><wbr>(<a href="../../../network/Networker.html" title="interface in dev.ultreon.mods.xinexlib.network">Networker</a>&nbsp;connection,
  net.minecraft.server.level.ServerPlayer&nbsp;player)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
@@ -205,18 +205,18 @@ implements <a href="../../../network/packet/IPacketToServer.html" title="interfa
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">write</span><wbr><span class="parameters">(net.minecraft.network.RegistryFriendlyByteBuf&nbsp;buf)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packet/IPacket.html#write(net.minecraft.network.RegistryFriendlyByteBuf)">write</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packet/IPacket.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">IPacket</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</code></dd>
+<dd><code><a href="../../../network/packet/Packet.html#write(net.minecraft.network.RegistryFriendlyByteBuf)">write</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packet/Packet.html" title="interface in dev.ultreon.mods.xinexlib.network.packet">Packet</a>&lt;<a href="PacketToServer.html" title="class in dev.ultreon.mods.xinexlib.dev.network.packets">PacketToServer</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="handle(dev.ultreon.mods.xinexlib.network.INetworker,net.minecraft.server.level.ServerPlayer)">
+<section class="detail" id="handle(dev.ultreon.mods.xinexlib.network.Networker,net.minecraft.server.level.ServerPlayer)">
 <h3>handle</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handle</span><wbr><span class="parameters">(<a href="../../../network/INetworker.html" title="interface in dev.ultreon.mods.xinexlib.network">INetworker</a>&nbsp;connection,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">handle</span><wbr><span class="parameters">(<a href="../../../network/Networker.html" title="interface in dev.ultreon.mods.xinexlib.network">Networker</a>&nbsp;connection,
  net.minecraft.server.level.ServerPlayer&nbsp;player)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/endpoint/IServerEndpoint.html#handle(dev.ultreon.mods.xinexlib.network.INetworker,net.minecraft.server.level.ServerPlayer)">handle</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/endpoint/IServerEndpoint.html" title="interface in dev.ultreon.mods.xinexlib.network.endpoint">IServerEndpoint</a></code></dd>
+<dd><code><a href="../../../network/endpoint/ServerEndpoint.html#handle(dev.ultreon.mods.xinexlib.network.Networker,net.minecraft.server.level.ServerPlayer)">handle</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/endpoint/ServerEndpoint.html" title="interface in dev.ultreon.mods.xinexlib.network.endpoint">ServerEndpoint</a></code></dd>
 </dl>
 </section>
 </li>

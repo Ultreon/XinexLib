@@ -2,8 +2,12 @@ dev.ultreon.mods.xinexlib
 dev.ultreon.mods.xinexlib.access
 dev.ultreon.mods.xinexlib.client
 dev.ultreon.mods.xinexlib.client.event
+dev.ultreon.mods.xinexlib.client.render
+dev.ultreon.mods.xinexlib.client.render.model
 dev.ultreon.mods.xinexlib.components
+dev.ultreon.mods.xinexlib.dev
 dev.ultreon.mods.xinexlib.dev.commands
+dev.ultreon.mods.xinexlib.dev.entity
 dev.ultreon.mods.xinexlib.dev.network.handler
 dev.ultreon.mods.xinexlib.dev.network.packets
 dev.ultreon.mods.xinexlib.event
