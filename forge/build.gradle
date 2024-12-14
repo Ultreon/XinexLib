@@ -83,7 +83,8 @@ dependencies {
     implementation(fg.deobf('io.github.llamalad7:mixinextras-forge:0.4.1') { version { strictly '0.4.1' } })
     annotationProcessor(group: 'io.github.llamalad7', name: 'mixinextras-forge', version: '0.4.1') { version { strictly '0.4.1' } }
 
-    jarJar minecraftLibrary(group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5')
+    jarJar minecraftLibrary('io.projectreactor:reactor-core:3.5.5')
+    jarJar minecraftLibrary('org.reactivestreams:reactive-streams:1.0.4')
 }
 
 publishing {

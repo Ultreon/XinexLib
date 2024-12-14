@@ -47,6 +47,15 @@ dependencies {
             prefer '3.5.5' // The version actually used in your dev workspace
         }
     }
+    jarJar(implementation('org.reactivestreams:reactive-streams:1.0.4')) {
+        version {
+            // The version range your mod is actually compatible with.
+            // Note that you may receive a *lower* version than your preferred if another
+            // Mod is only compatible up to 1.7.24, for example, your mod might get 1.7.24 at runtime.
+            strictly '[1.0.4, 1.1.0)'
+            prefer '1.0.4' // The version actually used in your dev workspace
+        }
+    }
     clientAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
     serverAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
     dataAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'

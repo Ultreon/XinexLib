@@ -13,7 +13,8 @@ dependencies {
 
     modImplementation "maven.modrinth:modmenu:${modmenu_version}"
 
-    include implementation(group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5')
+    include implementation('io.projectreactor:reactor-core:3.5.5')
+    include implementation('org.reactivestreams:reactive-streams:1.0.4')
 }
 
 loom {
