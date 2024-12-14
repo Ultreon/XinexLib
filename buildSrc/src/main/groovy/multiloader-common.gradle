@@ -123,7 +123,12 @@ publishing {
     }
     repositories {
         maven {
-            url System.getenv('local_maven_url')
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Ultreon/XinexLib")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
         }
     }
 }
