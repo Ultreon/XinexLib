@@ -2,14 +2,16 @@ package dev.ultreon.mods.xinexlib.platform;
 
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
-import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
-import dev.ultreon.mods.xinexlib.network.INetworker;
+import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
+import dev.ultreon.mods.xinexlib.network.Networker;
 import dev.ultreon.mods.xinexlib.network.NeoForgeNetworker;
-import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
-import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.platform.services.ClientPlatformHelper;
+import dev.ultreon.mods.xinexlib.platform.services.PlatformHelper;
+import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.registrar.NeoForgeRegistrarManager;
-import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
+import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
 import dev.ultreon.mods.xinexlib.tabs.NeoForgeCreativeTabBuilder;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -22,14 +24,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class NeoForgePlatformHelper implements IPlatformHelper {
-    private final HashMap<String, IRegistrarManager> registrars = new HashMap<>();
-    private final List<ICommandRegistrant> registrants = new ArrayList<>();
+public class NeoForgePlatformHelper implements PlatformHelper {
+    private final HashMap<String, RegistrarManager> registrars = new HashMap<>();
+    private final List<CommandRegistrant> registrants = new ArrayList<>();
     private IEventBus modEventBus;
+    private ClientPlatformHelper client;
 
     public NeoForgePlatformHelper() {
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            client = new NeoForgeClientPlatformHelper();
+        }
+
         NeoForge.EVENT_BUS.addListener(RegisterCommandsEvent.class, event -> {
-            for (ICommandRegistrant registrant : this.registrants) {
+            for (CommandRegistrant registrant : this.registrants) {
                 registrant.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection());
             }
         });
@@ -51,16 +58,16 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public IRegistrarManager getRegistrarManager(String modId) {
-        IRegistrarManager iRegistrarManager = this.registrars.get(modId);
-        if (iRegistrarManager == null) {
+    public RegistrarManager getRegistrarManager(String modId) {
+        RegistrarManager registrarManager = this.registrars.get(modId);
+        if (registrarManager == null) {
             throw new IllegalStateException("No registrar manager found for mod " + modId + " did you register the mod?");
         }
-        return iRegistrarManager;
+        return registrarManager;
     }
 
     @Override
-    public ICreativeModeTabBuilder creativeTabBuilder() {
+    public CreativeModeTabBuilder creativeTabBuilder() {
         return new NeoForgeCreativeTabBuilder();
     }
 
@@ -73,13 +80,21 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public INetworker createNetworker(String modId, Consumer<INetworkRegistry> registrant) {
+    public Networker createNetworker(String modId, Consumer<NetworkRegistry> registrant) {
         return new NeoForgeNetworker(modEventBus, modId, registrant);
     }
 
     @Override
-    public void registerCommand(ICommandRegistrant registrant) {
+    public void registerCommand(CommandRegistrant registrant) {
         this.registrants.add(registrant);
+    }
+
+    @Override
+    public ClientPlatformHelper client() {
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            return client;
+        }
+        throw new IllegalStateException("This method should only be called on the client");
     }
 
     public void registerMod(String modId, IEventBus modEventBus) {

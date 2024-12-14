@@ -1,8 +1,8 @@
 package dev.ultreon.mods.xinexlib.network;
 
-import dev.ultreon.mods.xinexlib.network.endpoint.IClientEndpoint;
-import dev.ultreon.mods.xinexlib.network.endpoint.IServerEndpoint;
-import dev.ultreon.mods.xinexlib.network.packet.IPacket;
+import dev.ultreon.mods.xinexlib.network.endpoint.ClientEndpoint;
+import dev.ultreon.mods.xinexlib.network.endpoint.ServerEndpoint;
+import dev.ultreon.mods.xinexlib.network.packet.Packet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -19,18 +19,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class ForgeNetworkRegistry implements INetworkRegistry {
-    private final Map<Class<? extends IPacket>, CustomPacketPayload.Type> typeRegistry = new HashMap<>();
+public class ForgeNetworkRegistry implements NetworkRegistry {
+    private final Map<Class<? extends Packet>, CustomPacketPayload.Type> typeRegistry = new HashMap<>();
     private final PayloadProtocol<RegistryFriendlyByteBuf, CustomPacketPayload> playProtocol;
 
     Channel<CustomPacketPayload> channel;
-    private final INetworker networker;
+    private final Networker networker;
     private final String modId;
     private final List<IPacketRegistrant<?>> clientRegistrants = new ArrayList<>();
     private final List<IPacketRegistrant<?>> serverRegistrants = new ArrayList<>();
     private final List<IPacketRegistrant<?>> bidiRegistrants = new ArrayList<>();
 
-    public ForgeNetworkRegistry(String modId, boolean optional, INetworker networker) {
+    public ForgeNetworkRegistry(String modId, boolean optional, Networker networker) {
         this.modId = modId;
         this.networker = networker;
 
@@ -53,7 +53,7 @@ public class ForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IClientEndpoint> void registerClient(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ClientEndpoint> void registerClient(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
 
@@ -67,7 +67,7 @@ public class ForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IServerEndpoint> void registerServer(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ServerEndpoint> void registerServer(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
 
@@ -81,7 +81,7 @@ public class ForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IServerEndpoint & IClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ServerEndpoint & ClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
 
@@ -95,7 +95,7 @@ public class ForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends IPacket<T>> CustomPacketPayload.Type<PayloadWrapper<T>> getType(Class<T> aClass) {
+    <T extends Packet<T>> CustomPacketPayload.Type<PayloadWrapper<T>> getType(Class<T> aClass) {
         return typeRegistry.get(aClass);
     }
 
@@ -122,7 +122,7 @@ public class ForgeNetworkRegistry implements INetworkRegistry {
         channel = bidirectional.build();
     }
 
-    private interface IPacketRegistrant<T extends IPacket<?>> {
+    private interface IPacketRegistrant<T extends Packet<?>> {
         CustomPacketPayload.Type<PayloadWrapper<T>> type();
 
         StreamCodec<RegistryFriendlyByteBuf, PayloadWrapper<T>> codec();
@@ -130,21 +130,21 @@ public class ForgeNetworkRegistry implements INetworkRegistry {
         BiConsumer<PayloadWrapper<T>, CustomPayloadEvent.Context> handler();
     }
 
-    private record ClientPacketRegistrant<T extends IPacket<?> & IClientEndpoint>(
+    private record ClientPacketRegistrant<T extends Packet<?> & ClientEndpoint>(
             CustomPacketPayload.Type<PayloadWrapper<T>> type,
             StreamCodec<RegistryFriendlyByteBuf, PayloadWrapper<T>> codec,
             BiConsumer<PayloadWrapper<T>, CustomPayloadEvent.Context> handler)
             implements IPacketRegistrant<T> {
     }
 
-    private record ServerPacketRegistrant<T extends IPacket<?> & IServerEndpoint>(
+    private record ServerPacketRegistrant<T extends Packet<?> & ServerEndpoint>(
             CustomPacketPayload.Type<PayloadWrapper<T>> type,
             StreamCodec<RegistryFriendlyByteBuf, PayloadWrapper<T>> codec,
             BiConsumer<PayloadWrapper<T>, CustomPayloadEvent.Context> handler)
             implements IPacketRegistrant<T> {
     }
 
-    private record BiDirectionalPacketRegistrant<T extends IPacket<?> & IServerEndpoint & IClientEndpoint>(
+    private record BiDirectionalPacketRegistrant<T extends Packet<?> & ServerEndpoint & ClientEndpoint>(
             CustomPacketPayload.Type<PayloadWrapper<T>> type,
             StreamCodec<RegistryFriendlyByteBuf, PayloadWrapper<T>> codec,
             BiConsumer<PayloadWrapper<T>, CustomPayloadEvent.Context> handler)

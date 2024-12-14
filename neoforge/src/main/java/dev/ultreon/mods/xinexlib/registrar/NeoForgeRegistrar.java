@@ -11,11 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class NeoForgeRegistrar<T> implements IRegistrar<T> {
+public class NeoForgeRegistrar<T> implements Registrar<T> {
     private final DeferredRegister<T> deferredRegister;
     private final IEventBus modEventBus;
     private boolean registered = false;
-    private final List<IRegistrySupplier<? extends T, T>> values = new ArrayList<>();
+    private final List<RegistrySupplier<? extends T, T>> values = new ArrayList<>();
 
     public NeoForgeRegistrar(DeferredRegister<T> deferredRegister, IEventBus modEventBus) {
         this.deferredRegister = deferredRegister;
@@ -23,7 +23,7 @@ public class NeoForgeRegistrar<T> implements IRegistrar<T> {
     }
 
     @Override
-    public <R extends T> IRegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
+    public <R extends T> RegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
         NeoForgeRegistrySupplier<R, T> rtNeoForgeRegistrySupplier = new NeoForgeRegistrySupplier<>(deferredRegister.register(name, supplier), this, ResourceLocation.fromNamespaceAndPath(deferredRegister.getNamespace(), name));
         this.values.add(rtNeoForgeRegistrySupplier);
         return rtNeoForgeRegistrySupplier;
@@ -42,7 +42,7 @@ public class NeoForgeRegistrar<T> implements IRegistrar<T> {
     }
 
     @Override
-    public @NotNull Iterator<IRegistrySupplier<?, T>> iterator() {
+    public @NotNull Iterator<RegistrySupplier<?, T>> iterator() {
         return this.values.iterator();
     }
 }

@@ -11,11 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FabricRegistrar<T> implements IRegistrar<T> {
+public class FabricRegistrar<T> implements Registrar<T> {
     private final ResourceKey<Registry<T>> key;
     private final String modId;
     private final Registry<T> registry;
-    private final List<IRegistrySupplier<?, T>> suppliers = new ArrayList<>();
+    private final List<RegistrySupplier<?, T>> suppliers = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     public FabricRegistrar(ResourceKey<Registry<T>> key, String modId) {
@@ -25,7 +25,7 @@ public class FabricRegistrar<T> implements IRegistrar<T> {
     }
 
     @Override
-    public <R extends T> IRegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
+    public <R extends T> RegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
         if (registry != null) {
             ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(modId, name);
             FabricRegistrySupplier<R, T> rtFabricRegistrySupplier = new FabricRegistrySupplier<R, T>(this, ResourceKey.<R>create((ResourceKey) key, resourceLocation)) {
@@ -44,7 +44,7 @@ public class FabricRegistrar<T> implements IRegistrar<T> {
 
     @Override
     public void load() {
-        for (IRegistrySupplier<?, T> supplier : this.suppliers) {
+        for (RegistrySupplier<?, T> supplier : this.suppliers) {
             FabricRegistrySupplier<?, T> fabricRegistrySupplier = (FabricRegistrySupplier<?, T>) supplier;
             fabricRegistrySupplier.register();
         }
@@ -56,7 +56,7 @@ public class FabricRegistrar<T> implements IRegistrar<T> {
     }
 
     @Override
-    public @NotNull Iterator<IRegistrySupplier<?, T>> iterator() {
+    public @NotNull Iterator<RegistrySupplier<?, T>> iterator() {
         return suppliers.iterator();
     }
 }

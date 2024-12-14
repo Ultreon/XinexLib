@@ -1,20 +1,20 @@
 package dev.ultreon.mods.xinexlib.platform.services;
 
-import dev.ultreon.mods.xinexlib.network.INetworker;
+import dev.ultreon.mods.xinexlib.network.Networker;
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
+import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
 import dev.ultreon.mods.xinexlib.components.ComponentManager;
-import dev.ultreon.mods.xinexlib.components.IComponentManager;
-import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
-import dev.ultreon.mods.xinexlib.platform.ICommandRegistrant;
-import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
-import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
+import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
+import dev.ultreon.mods.xinexlib.platform.CommandRegistrant;
+import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
 
 import java.util.function.Consumer;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
-public interface IPlatformHelper {
+public interface PlatformHelper {
 
     /// Gets the name of the current platform
     ///
@@ -43,21 +43,23 @@ public interface IPlatformHelper {
     ///
     /// @param modId The mod id
     /// @return The registrar manager
-    IRegistrarManager getRegistrarManager(String modId);
+    RegistrarManager getRegistrarManager(String modId);
 
     /// Gets the component manager for the given mod id
     ///
     /// @param modId The mod id
     /// @return The component manager
-    default IComponentManager getComponentManager(String modId) {
-        return new ComponentManager(modId);
+    default ComponentManager getComponentManager(String modId) {
+        return new SimpleComponentManager(modId);
     }
 
-    ICreativeModeTabBuilder creativeTabBuilder();
+    CreativeModeTabBuilder creativeTabBuilder();
 
     Env getEnv();
 
-    INetworker createNetworker(String modId, Consumer<INetworkRegistry> registrant);
+    Networker createNetworker(String modId, Consumer<NetworkRegistry> registrant);
 
-    void registerCommand(ICommandRegistrant registrant);
+    void registerCommand(CommandRegistrant registrant);
+
+    ClientPlatformHelper client();
 }

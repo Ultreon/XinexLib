@@ -1,13 +1,10 @@
 package dev.ultreon.mods.xinexlib;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.ultreon.mods.xinexlib.access.IEntityComponentAccess;
+import dev.ultreon.mods.xinexlib.access.EntityComponentAccess;
 import dev.ultreon.mods.xinexlib.components.*;
-import dev.ultreon.mods.xinexlib.dev.commands.DevSendMessageCommand;
+import dev.ultreon.mods.xinexlib.dev.DevEntities;
 import dev.ultreon.mods.xinexlib.dev.network.packets.PacketToClient;
-import dev.ultreon.mods.xinexlib.dev.network.packets.PacketToServer;
 import dev.ultreon.mods.xinexlib.event.JVMShutdownEvent;
 import dev.ultreon.mods.xinexlib.event.block.AttemptBlockSetEvent;
 import dev.ultreon.mods.xinexlib.event.block.BlockSetEvent;
@@ -24,16 +21,14 @@ import dev.ultreon.mods.xinexlib.event.server.ServerChatEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.item.XinexBlockItem;
 import dev.ultreon.mods.xinexlib.nbt.DataKeys;
-import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
-import dev.ultreon.mods.xinexlib.network.INetworker;
+import dev.ultreon.mods.xinexlib.network.Networker;
 import dev.ultreon.mods.xinexlib.platform.Services;
-import dev.ultreon.mods.xinexlib.registrar.IRegistrar;
-import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
+import dev.ultreon.mods.xinexlib.registrar.Registrar;
+import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -85,10 +80,10 @@ public class CommonClass {
         }
 
         EventSystem.MAIN.on(EntitySaveEvent.class, (event) -> {
-            IEntityComponentAccess entity = (IEntityComponentAccess) event.getEntity();
+            EntityComponentAccess entity = (EntityComponentAccess) event.getEntity();
             CompoundTag extraData = event.getExtraData(DataKeys.COMPONENTS) instanceof CompoundTag tag ? tag : new CompoundTag();
-            Map<ResourceLocation, IComponent<Entity>> components = entity.xinexlib$getAllComponents();
-            for (Map.Entry<ResourceLocation, IComponent<Entity>> entry : components.entrySet()) {
+            Map<ResourceLocation, Component<Entity>> components = entity.xinexlib$getAllComponents();
+            for (Map.Entry<ResourceLocation, Component<Entity>> entry : components.entrySet()) {
                 CompoundTag componentTag = extraData.getCompound(entry.getKey().toString());
                 entry.getValue().save(componentTag, event.getEntity().registryAccess());
                 extraData.put(entry.getKey().toString(), componentTag);
@@ -98,8 +93,8 @@ public class CommonClass {
         });
 
         EventSystem.MAIN.on(EntityLoadEvent.class, (event) -> {
-            IEntityComponentAccess componentAccess = (IEntityComponentAccess) event.getEntity();
-            ComponentManager.loadComponents(event.getEntity(), componentAccess, event.getExtraData(DataKeys.COMPONENTS) instanceof CompoundTag tag ? tag : new CompoundTag());
+            EntityComponentAccess componentAccess = (EntityComponentAccess) event.getEntity();
+            SimpleComponentManager.loadComponents(event.getEntity(), componentAccess, event.getExtraData(DataKeys.COMPONENTS) instanceof CompoundTag tag ? tag : new CompoundTag());
         });
     }
 
@@ -108,20 +103,20 @@ public class CommonClass {
     }
 
     private static void initDev() {
-        IRegistrarManager registrarManager = Services.getRegistrarManager(Constants.MOD_ID);
-        IRegistrar<Block> blockRegistrar = registrarManager.getRegistrar(Registries.BLOCK);
+        RegistrarManager registrarManager = Services.getRegistrarManager(Constants.MOD_ID);
+        Registrar<Block> blockRegistrar = registrarManager.getRegistrar(Registries.BLOCK);
         var testBlock = blockRegistrar.register("test_block", () -> new Block(BlockBehaviour.Properties.of().requiresCorrectToolForDrops()));
         var secondBlock = blockRegistrar.register("second_block", () -> new Block(BlockBehaviour.Properties.of().requiresCorrectToolForDrops()));
-        IRegistrar<Item> itemRegistrar = registrarManager.getRegistrar(Registries.ITEM);
+        Registrar<Item> itemRegistrar = registrarManager.getRegistrar(Registries.ITEM);
         var testItem = itemRegistrar.register("test_item", () -> new Item(new Item.Properties().stacksTo(1)));
         var testBlockItem = itemRegistrar.register("test_block_item", () -> new XinexBlockItem(testBlock, new Item.Properties().stacksTo(1)));
         var secondBlockItem = itemRegistrar.register("second_block_item", () -> new XinexBlockItem(secondBlock, new Item.Properties().stacksTo(1)));
-        IRegistrar<CreativeModeTab> creativeModeTabRegistrar = registrarManager.getRegistrar(Registries.CREATIVE_MODE_TAB);
+        Registrar<CreativeModeTab> creativeModeTabRegistrar = registrarManager.getRegistrar(Registries.CREATIVE_MODE_TAB);
         var testTab = creativeModeTabRegistrar.register("test_tab", () -> Services.creativeTabBuilder().icon(() -> new ItemStack(testBlockItem)).displayItems((itemDisplayParameters, output) -> {
             output.accept(new ItemStack(testItem));
             output.accept(new ItemStack(testBlockItem));
             output.accept(new ItemStack(secondBlockItem));
-        }).title(Component.literal("Test Tab")).build());
+        }).title(net.minecraft.network.chat.Component.literal("Test Tab")).build());
 
         Constants.LOG.info("The ID for test_block is {}", testBlock.getId());
         Constants.LOG.info("The ID for test_item is {}", testItem.getId());
@@ -134,22 +129,24 @@ public class CommonClass {
         itemRegistrar.load();
         creativeModeTabRegistrar.load();
 
+        DevEntities.load();
+
         EventSystem.MAIN.on(PlayerPlaceBlockEvent.class, event -> {
             if (!event.getState().is(testBlock)) return;
             Player player = event.getPlayer();
-            player.sendSystemMessage(Component.literal("You placed a test block at " + event.getBlockPosition() + "!"));
+            player.sendSystemMessage(net.minecraft.network.chat.Component.literal("You placed a test block at " + event.getBlockPosition() + "!"));
             if (event.getBlockPosition().getY() < 64) event.cancel();
         });
 
         EventSystem.MAIN.on(ServerChatEvent.class, event -> {
             if (event.getMessageContent().getString().equalsIgnoreCase("hello")) {
                 ServerPlayer player = event.getPlayer();
-                player.sendSystemMessage(Component.literal("Hello, " + player.getName().getString()));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("Hello, " + player.getName().getString()));
             }
 
             if (event.getMessageContent().getString().equalsIgnoreCase("bye")) {
                 ServerPlayer player = event.getPlayer();
-                player.sendSystemMessage(Component.literal("Bye, " + player.getName().getString()));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("Bye, " + player.getName().getString()));
             }
 
             if (event.getMessageContent().getString().equalsIgnoreCase("block this")) {
@@ -169,7 +166,7 @@ public class CommonClass {
             if (!event.getState().is(secondBlock)) return;
 
             for (Player player : event.getLevel().players()) {
-                player.sendSystemMessage(Component.literal("Block set at " + event.getBlockPosition() + "!"));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("Block set at " + event.getBlockPosition() + "!"));
             }
         });
 
@@ -190,13 +187,13 @@ public class CommonClass {
 
         EventSystem.MAIN.on(UseBlockEvent.class, event -> {
             if (event.getEntity() instanceof ServerPlayer player) {
-                player.sendSystemMessage(Component.literal("You used a block at " + event.getBlockPosition() + "!"));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("You used a block at " + event.getBlockPosition() + "!"));
             }
         });
 
         EventSystem.MAIN.on(UseItemEvent.class, event -> {
             if (event.getEntity() instanceof ServerPlayer player) {
-                player.sendSystemMessage(Component.literal("You used an item at " + event.getPosition() + "!"));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("You used an item at " + event.getPosition() + "!"));
             }
         });
 
@@ -221,7 +218,7 @@ public class CommonClass {
             }
         });
 
-        class TestyComponent implements IComponent<Entity> {
+        class TestyComponent implements Component<Entity> {
             private String name = "John Doe";
 
             public TestyComponent(String name) {
@@ -240,15 +237,15 @@ public class CommonClass {
             }
         }
 
-        IComponentManager componentManager = Services.getComponentManager(Constants.MOD_ID);
-        IComponentHolder<Entity, TestyComponent> testy = componentManager.registerComponent("testy", new EntityComponentBuilder<TestyComponent>(TestyComponent.class)
+        ComponentManager componentManager = Services.getComponentManager(Constants.MOD_ID);
+        ComponentHolder<Entity, TestyComponent> testy = componentManager.registerComponent("testy", new EntityComponentBuilder<TestyComponent>(TestyComponent.class)
                 .factory(entity -> new TestyComponent("John Doe"))
                 .target(EntityType.PLAYER));
 
         EventSystem.MAIN.on(ServerChatEvent.class, event -> {
             if (event.getMessageContent().getString().equalsIgnoreCase("what is my name?")) {
                 ServerPlayer player = event.getPlayer();
-                player.sendSystemMessage(Component.literal("Your player name is " + testy.get(player).name));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("Your player name is " + testy.get(player).name));
                 event.cancel();
             }
 
@@ -261,7 +258,7 @@ public class CommonClass {
 
         Constants.LOG.info("The developer mode is enabled!");
 
-        INetworker networker = Services.createNetworker(Constants.MOD_ID, iNetworkRegistry -> {
+        Networker networker = Services.createNetworker(Constants.MOD_ID, iNetworkRegistry -> {
             iNetworkRegistry.registerClient("packet2client", PacketToClient.class, PacketToClient::read);
 //            iNetworkRegistry.registerServer("packet2server", PacketToServer.class, PacketToServer::read);
         });

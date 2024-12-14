@@ -14,12 +14,12 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class ForgeRegistrySupplier<R extends T, T> implements IRegistrySupplier<R, T> {
+public class ForgeRegistrySupplier<R extends T, T> implements RegistrySupplier<R, T> {
     private final RegistryObject<R> registryObject;
     private final ResourceKey<R> key;
-    private final IRegistrar<T> registrar;
+    private final Registrar<T> registrar;
 
-    public ForgeRegistrySupplier(RegistryObject<R> registryObject, ResourceKey<R> key, IRegistrar<T> registrar) {
+    public ForgeRegistrySupplier(RegistryObject<R> registryObject, ResourceKey<R> key, Registrar<T> registrar) {
         this.registryObject = registryObject;
         this.key = key;
         this.registrar = registrar;

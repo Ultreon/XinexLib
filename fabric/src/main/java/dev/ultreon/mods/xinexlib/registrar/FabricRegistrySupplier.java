@@ -13,12 +13,12 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class FabricRegistrySupplier<R extends T, T> implements IRegistrySupplier<R, T> {
-    private final IRegistrar<T> registry;
+public abstract class FabricRegistrySupplier<R extends T, T> implements RegistrySupplier<R, T> {
+    private final Registrar<T> registry;
     private final ResourceKey<R> key;
     protected R value;
 
-    protected FabricRegistrySupplier(IRegistrar<T> registrar, ResourceKey<R> key) {
+    protected FabricRegistrySupplier(Registrar<T> registrar, ResourceKey<R> key) {
         this.registry = registrar;
         this.key = key;
     }

@@ -1,10 +1,10 @@
 package dev.ultreon.mods.xinexlib.network;
 
-import dev.ultreon.mods.xinexlib.network.packet.IPacket;
+import dev.ultreon.mods.xinexlib.network.packet.Packet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-class PayloadWrapper<T extends IPacket<?>> implements CustomPacketPayload {
+class PayloadWrapper<T extends Packet<?>> implements CustomPacketPayload {
     private final Type<PayloadWrapper<T>> type;
     T packet;
 

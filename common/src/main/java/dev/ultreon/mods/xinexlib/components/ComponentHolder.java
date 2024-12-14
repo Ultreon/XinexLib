@@ -1,5 +1,5 @@
 package dev.ultreon.mods.xinexlib.components;
 
-public interface IComponentHolder<O, T extends IComponent<O>> {
+public interface ComponentHolder<O, T extends Component<O>> {
     T get(O value);
 }

@@ -31,48 +31,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class XinexLibClient implements ClientModInitializer {
-    private static InteractionResult interact(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
-        return EventSystem.MAIN.publish(new UseBlockEvent(hitResult, player, world)).get();
-    }
-
-    private static void onServerStarting(MinecraftServer server) {
-        EventSystem.MAIN.publish(new ServerStartingEvent(server));
-    }
-
-    private static void onServerStopping(MinecraftServer server) {
-        EventSystem.MAIN.publish(new ServerStoppingEvent(server));
-    }
-
-    private static void onServerStarted(MinecraftServer server) {
-        EventSystem.MAIN.publish(new ServerStartedEvent(server));
-    }
-
-    private static void onServerStopped(MinecraftServer server) {
-        EventSystem.MAIN.publish(new ServerStoppedEvent(server));
-    }
-
-    private static void afterBlockBreak(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
-        EventSystem.MAIN.publish(new PlayerBreakBlockEvent(state, pos, world, player));
-    }
-
-    private static InteractionResultHolder<ItemStack> interactItem(Player player, Level level, InteractionHand interactionHand) {
-        InteractionResult publish = EventSystem.MAIN.publish(new UseItemEvent(player, level, interactionHand).get());
-        return new InteractionResultHolder<>(publish, player.getItemInHand(interactionHand));
-    }
-
-    private static InteractionResult interactEntity(Player player, Level level, InteractionHand interactionHand, Entity entity, @Nullable EntityHitResult entityHitResult) {
-        return EventSystem.MAIN.publish(new UseEntityEvent(player, level, interactionHand, entity)).get();
-    }
-
-    private static InteractionResult attackEntity(Player player, Level level, InteractionHand interactionHand, Entity entity, @Nullable EntityHitResult entityHitResult) {
-        AttackEntityEvent publish = EventSystem.MAIN.publish(new AttackEntityEvent(player, level, entity));
-        if (publish.isCanceled()) {
-            return InteractionResult.FAIL;
-        }
-
-        return InteractionResult.PASS;
-    }
-
     @Override
     public void onInitializeClient() {
 

@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public class NeoForgeCreativeTabBuilder implements ICreativeModeTabBuilder {
+public class NeoForgeCreativeTabBuilder implements CreativeModeTabBuilder {
     private final CreativeModeTab.Builder builder;
 
     public NeoForgeCreativeTabBuilder() {
@@ -15,31 +15,31 @@ public class NeoForgeCreativeTabBuilder implements ICreativeModeTabBuilder {
     }
 
     @Override
-    public ICreativeModeTabBuilder title(Component name) {
+    public CreativeModeTabBuilder title(Component name) {
         builder.title(name);
         return this;
     }
 
     @Override
-    public ICreativeModeTabBuilder icon(Supplier<ItemStack> icon) {
+    public CreativeModeTabBuilder icon(Supplier<ItemStack> icon) {
         builder.icon(icon);
         return this;
     }
 
     @Override
-    public ICreativeModeTabBuilder background(ResourceLocation background) {
+    public CreativeModeTabBuilder background(ResourceLocation background) {
         builder.backgroundTexture(background);
         return this;
     }
 
     @Override
-    public ICreativeModeTabBuilder noScrollBar() {
+    public CreativeModeTabBuilder noScrollBar() {
         builder.noScrollBar();
         return this;
     }
 
     @Override
-    public ICreativeModeTabBuilder displayItems(CreativeModeTab.DisplayItemsGenerator generator) {
+    public CreativeModeTabBuilder displayItems(CreativeModeTab.DisplayItemsGenerator generator) {
         builder.displayItems(generator);
         return this;
     }

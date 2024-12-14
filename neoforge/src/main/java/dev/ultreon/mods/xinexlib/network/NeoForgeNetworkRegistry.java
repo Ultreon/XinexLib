@@ -1,8 +1,8 @@
 package dev.ultreon.mods.xinexlib.network;
 
-import dev.ultreon.mods.xinexlib.network.endpoint.IClientEndpoint;
-import dev.ultreon.mods.xinexlib.network.endpoint.IServerEndpoint;
-import dev.ultreon.mods.xinexlib.network.packet.IPacket;
+import dev.ultreon.mods.xinexlib.network.endpoint.ClientEndpoint;
+import dev.ultreon.mods.xinexlib.network.endpoint.ServerEndpoint;
+import dev.ultreon.mods.xinexlib.network.packet.Packet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -13,16 +13,15 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public class NeoForgeNetworkRegistry implements INetworkRegistry {
-    private final Map<Class<? extends IPacket>, CustomPacketPayload.Type> typeRegistry = new HashMap<>();
+public class NeoForgeNetworkRegistry implements NetworkRegistry {
+    private final Map<Class<? extends Packet>, CustomPacketPayload.Type> typeRegistry = new HashMap<>();
     private final PayloadRegistrar registrar;
     private final String modId;
-    private final Consumer<INetworkRegistry> registrant;
-    private INetworker networker;
+    private final Consumer<NetworkRegistry> registrant;
+    private Networker networker;
 
-    public NeoForgeNetworkRegistry(PayloadRegistrar registrar, String modId, Consumer<INetworkRegistry> registrant, INetworker networker) {
+    public NeoForgeNetworkRegistry(PayloadRegistrar registrar, String modId, Consumer<NetworkRegistry> registrant, Networker networker) {
         this.registrar = registrar;
         this.modId = modId;
         this.registrant = registrant;
@@ -30,7 +29,7 @@ public class NeoForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IClientEndpoint> void registerClient(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ClientEndpoint> void registerClient(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
 
@@ -41,7 +40,7 @@ public class NeoForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IServerEndpoint> void registerServer(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ServerEndpoint> void registerServer(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
         
@@ -52,7 +51,7 @@ public class NeoForgeNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IServerEndpoint & IClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ServerEndpoint & ClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
         
@@ -65,7 +64,7 @@ public class NeoForgeNetworkRegistry implements INetworkRegistry {
         this.registrar.playToClient(type, codec, (wrapper, context) -> wrapper.packet.handle(this.networker));
     }
 
-    <T extends IPacket<T>> CustomPacketPayload.Type<PayloadWrapper<T>> getType(Class<T> aClass) {
+    <T extends Packet<T>> CustomPacketPayload.Type<PayloadWrapper<T>> getType(Class<T> aClass) {
         return (CustomPacketPayload.Type) typeRegistry.get(aClass);
     }
 }

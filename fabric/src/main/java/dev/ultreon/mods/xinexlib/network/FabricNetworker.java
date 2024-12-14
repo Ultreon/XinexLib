@@ -1,19 +1,19 @@
 package dev.ultreon.mods.xinexlib.network;
 
-import dev.ultreon.mods.xinexlib.network.endpoint.IClientEndpoint;
-import dev.ultreon.mods.xinexlib.network.endpoint.IServerEndpoint;
-import dev.ultreon.mods.xinexlib.network.packet.IPacket;
+import dev.ultreon.mods.xinexlib.network.endpoint.ClientEndpoint;
+import dev.ultreon.mods.xinexlib.network.endpoint.ServerEndpoint;
+import dev.ultreon.mods.xinexlib.network.packet.Packet;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.function.Consumer;
 
-public class FabricNetworker implements INetworker {
-    private final Consumer<INetworkRegistry> registrant;
+public class FabricNetworker implements Networker {
+    private final Consumer<NetworkRegistry> registrant;
     private final FabricNetworkRegistry registry;
 
-    public FabricNetworker(String modId, Consumer<INetworkRegistry> registrant) {
+    public FabricNetworker(String modId, Consumer<NetworkRegistry> registrant) {
         this.registrant = registrant;
         this.registry = new FabricNetworkRegistry(this, modId);
         registrant.accept(registry);
@@ -21,13 +21,13 @@ public class FabricNetworker implements INetworker {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends IPacket<T> & IServerEndpoint> void sendToServer(T payload) {
+    public <T extends Packet<T> & ServerEndpoint> void sendToServer(T payload) {
         ClientPlayNetworking.send(new PayloadWrapper<>(registry.getType((Class<T>) payload.getClass()), payload));
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends IPacket<T> & IClientEndpoint> void sendToClient(T payload, ServerPlayer player) {
+    public <T extends Packet<T> & ClientEndpoint> void sendToClient(T payload, ServerPlayer player) {
         ServerPlayNetworking.send(player, new PayloadWrapper<>(registry.getType((Class<T>) payload.getClass()), payload));
     }
 }

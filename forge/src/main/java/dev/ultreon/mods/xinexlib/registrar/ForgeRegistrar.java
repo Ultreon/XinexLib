@@ -13,12 +13,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ForgeRegistrar<T> implements IRegistrar<T> {
+public class ForgeRegistrar<T> implements Registrar<T> {
     private final DeferredRegister<T> deferredRegister;
     private final IEventBus modEventBus;
     private final String namespace;
     private Registry<T> registry;
-    private final List<IRegistrySupplier<? extends T, T>> registryObjects = new ArrayList<>();
+    private final List<RegistrySupplier<? extends T, T>> registryObjects = new ArrayList<>();
 
     public ForgeRegistrar(DeferredRegister<T> deferredRegister, IEventBus modEventBus, String namespace) {
         this.deferredRegister = deferredRegister;
@@ -29,7 +29,7 @@ public class ForgeRegistrar<T> implements IRegistrar<T> {
     @Override
     @SuppressWarnings("unchecked")
 
-    public <R extends T> IRegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
+    public <R extends T> RegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
         ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(namespace, name);
         ForgeRegistrySupplier<R, T> rForgeRegistrySupplier = new ForgeRegistrySupplier<>(deferredRegister.register(name, supplier), ResourceKey.<R>create((ResourceKey) deferredRegister.getRegistryKey(), resourceLocation), this);
         this.registryObjects.add(rForgeRegistrySupplier);
@@ -54,7 +54,7 @@ public class ForgeRegistrar<T> implements IRegistrar<T> {
     }
 
     @Override
-    public @NotNull Iterator<IRegistrySupplier<?, T>> iterator() {
+    public @NotNull Iterator<RegistrySupplier<?, T>> iterator() {
         return registryObjects.iterator();
     }
 }

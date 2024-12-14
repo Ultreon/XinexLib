@@ -10,7 +10,7 @@ import java.util.Optional;
 ///
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
-public interface IRegistrySupplier<R extends T, T> extends Holder<T> {
+public interface RegistrySupplier<R extends T, T> extends Holder<T> {
     /// Gets the value if it is bound
     default R get() {
         return asOptional().orElseThrow(() -> new IllegalStateException("Value " + getId() + " in registry " + registry().key().location() + " is not bound!"));

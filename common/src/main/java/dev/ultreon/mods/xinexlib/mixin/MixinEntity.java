@@ -1,11 +1,11 @@
 package dev.ultreon.mods.xinexlib.mixin;
 
-import dev.ultreon.mods.xinexlib.access.IEntityComponentAccess;
+import dev.ultreon.mods.xinexlib.access.EntityComponentAccess;
 import dev.ultreon.mods.xinexlib.event.entity.EntityLoadEvent;
 import dev.ultreon.mods.xinexlib.event.entity.EntitySaveEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
-import dev.ultreon.mods.xinexlib.components.ComponentManager;
-import dev.ultreon.mods.xinexlib.components.IComponent;
+import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
+import dev.ultreon.mods.xinexlib.components.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(Entity.class)
-public abstract class MixinEntity implements IEntityComponentAccess {
+public abstract class MixinEntity implements EntityComponentAccess {
     @Unique
-    private final Map<ResourceLocation, IComponent<Entity>> xinexlib$components = new HashMap<>();
+    private final Map<ResourceLocation, Component<Entity>> xinexlib$components = new HashMap<>();
 
     @Inject(method = "saveWithoutId", at = @At("HEAD"))
     private void addAdditionalSaveData(CompoundTag pCompound, CallbackInfoReturnable<CompoundTag> cir) {
@@ -45,16 +45,16 @@ public abstract class MixinEntity implements IEntityComponentAccess {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void init(EntityType entityType, Level level, CallbackInfo ci) {
-        ComponentManager.installComponents((Entity) (Object) this);
+        SimpleComponentManager.installComponents((Entity) (Object) this);
     }
 
     @Override
-    public <T extends IComponent<Entity>> T xinexlib$getComponent(ResourceLocation name, Class<T> clazz) {
+    public <T extends Component<Entity>> T xinexlib$getComponent(ResourceLocation name, Class<T> clazz) {
         return clazz.cast(xinexlib$components.get(name));
     }
 
     @Override
-    public <T extends IComponent<Entity>> void xinexlib$setComponent(ResourceLocation name, T component) {
+    public <T extends Component<Entity>> void xinexlib$setComponent(ResourceLocation name, T component) {
         if (component == null) {
             xinexlib$components.remove(name);
             return;
@@ -63,7 +63,7 @@ public abstract class MixinEntity implements IEntityComponentAccess {
     }
 
     @Override
-    public Map<ResourceLocation, IComponent<Entity>> xinexlib$getAllComponents() {
+    public Map<ResourceLocation, Component<Entity>> xinexlib$getAllComponents() {
         return Collections.unmodifiableMap(xinexlib$components);
     }
 }

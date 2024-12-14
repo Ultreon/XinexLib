@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class NeoForgeRegistrarManager implements IRegistrarManager {
+public class NeoForgeRegistrarManager implements RegistrarManager {
     private final String modId;
     private final IEventBus modEventBus;
 
@@ -15,7 +15,7 @@ public class NeoForgeRegistrarManager implements IRegistrarManager {
     }
 
     @Override
-    public <T> IRegistrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
+    public <T> Registrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
         return new NeoForgeRegistrar<>(DeferredRegister.create(key, modId), modEventBus);
     }
 }

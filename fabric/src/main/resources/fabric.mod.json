@@ -22,6 +22,9 @@
     "main": [
       "dev.ultreon.mods.xinexlib.XinexLib"
     ],
+    "client": [
+      "dev.ultreon.mods.xinexlib.client.XinexLibClient"
+    ],
     "cardinal-components-entity": [
       "dev.ultreon.mods.xinexlib.platform.components.EntityComponents"
     ]

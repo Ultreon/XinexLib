@@ -3,12 +3,12 @@ package dev.ultreon.mods.xinexlib.platform;
 import dev.ultreon.mods.xinexlib.Constants;
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
-import dev.ultreon.mods.xinexlib.components.IComponentManager;
-import dev.ultreon.mods.xinexlib.network.INetworkRegistry;
-import dev.ultreon.mods.xinexlib.network.INetworker;
-import dev.ultreon.mods.xinexlib.platform.services.IPlatformHelper;
-import dev.ultreon.mods.xinexlib.registrar.IRegistrarManager;
-import dev.ultreon.mods.xinexlib.tabs.ICreativeModeTabBuilder;
+import dev.ultreon.mods.xinexlib.components.ComponentManager;
+import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
+import dev.ultreon.mods.xinexlib.network.Networker;
+import dev.ultreon.mods.xinexlib.platform.services.PlatformHelper;
+import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
+import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
 
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
@@ -28,7 +28,7 @@ public class Services {
      For example this can be used to check if the code is running on Forge vs Fabric, or to ask the modloader if another
      mod is loaded.
     */
-    public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
+    public static final PlatformHelper PLATFORM = load(PlatformHelper.class);
 
     /*
      This code is used to load a service for the current environment. Your implementation of the service must be defined
@@ -42,7 +42,7 @@ public class Services {
         return loadedService;
     }
 
-    public static IRegistrarManager getRegistrarManager(String modId) {
+    public static RegistrarManager getRegistrarManager(String modId) {
         return PLATFORM.getRegistrarManager(modId);
     }
 
@@ -62,11 +62,11 @@ public class Services {
         return PLATFORM.getPlatformName();
     }
 
-    public static IComponentManager getComponentManager(String modId) {
+    public static ComponentManager getComponentManager(String modId) {
         return PLATFORM.getComponentManager(modId);
     }
 
-    public static ICreativeModeTabBuilder creativeTabBuilder() {
+    public static CreativeModeTabBuilder creativeTabBuilder() {
         return PLATFORM.creativeTabBuilder();
     }
 
@@ -74,11 +74,11 @@ public class Services {
         return PLATFORM.getEnv();
     }
 
-    public static INetworker createNetworker(String modId, Consumer<INetworkRegistry> registrant) {
+    public static Networker createNetworker(String modId, Consumer<NetworkRegistry> registrant) {
         return PLATFORM.createNetworker(modId, registrant);
     }
 
-    public static void registerCommand(ICommandRegistrant registrant) {
+    public static void registerCommand(CommandRegistrant registrant) {
         PLATFORM.registerCommand(registrant);
     }
 }

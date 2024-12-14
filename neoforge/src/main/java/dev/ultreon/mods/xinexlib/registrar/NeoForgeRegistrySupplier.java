@@ -14,12 +14,12 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class NeoForgeRegistrySupplier<R extends T, T> implements IRegistrySupplier<R, T> {
+public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplier<R, T> {
     private final DeferredHolder<T, R> holder;
-    private final IRegistrar<T> registrar;
+    private final Registrar<T> registrar;
     private final ResourceLocation id;
 
-    public NeoForgeRegistrySupplier(DeferredHolder<T, R> holder, IRegistrar<T> registrar, ResourceLocation id) {
+    public NeoForgeRegistrySupplier(DeferredHolder<T, R> holder, Registrar<T> registrar, ResourceLocation id) {
         this.holder = holder;
         this.registrar = registrar;
         this.id = id;

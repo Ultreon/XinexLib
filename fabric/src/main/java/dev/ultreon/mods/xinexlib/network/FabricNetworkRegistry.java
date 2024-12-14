@@ -1,9 +1,9 @@
 package dev.ultreon.mods.xinexlib.network;
 
 import dev.ultreon.mods.xinexlib.Env;
-import dev.ultreon.mods.xinexlib.network.endpoint.IClientEndpoint;
-import dev.ultreon.mods.xinexlib.network.endpoint.IServerEndpoint;
-import dev.ultreon.mods.xinexlib.network.packet.IPacket;
+import dev.ultreon.mods.xinexlib.network.endpoint.ClientEndpoint;
+import dev.ultreon.mods.xinexlib.network.endpoint.ServerEndpoint;
+import dev.ultreon.mods.xinexlib.network.packet.Packet;
 import dev.ultreon.mods.xinexlib.platform.Services;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -16,18 +16,18 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FabricNetworkRegistry implements INetworkRegistry {
+public class FabricNetworkRegistry implements NetworkRegistry {
     private final String modId;
-    private final INetworker networker;
-    private Map<Class<? extends IPacket>, CustomPacketPayload.Type<PayloadWrapper>> typeRegistry = new HashMap<>();
+    private final Networker networker;
+    private Map<Class<? extends Packet>, CustomPacketPayload.Type<PayloadWrapper>> typeRegistry = new HashMap<>();
 
-    public FabricNetworkRegistry(INetworker networker, String modId) {
+    public FabricNetworkRegistry(Networker networker, String modId) {
         this.networker = networker;
         this.modId = modId;
     }
 
     @Override
-    public <T extends IPacket<T> & IClientEndpoint> void registerClient(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ClientEndpoint> void registerClient(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, (CustomPacketPayload.Type) type);
 
@@ -41,7 +41,7 @@ public class FabricNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IServerEndpoint> void registerServer(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ServerEndpoint> void registerServer(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, (CustomPacketPayload.Type) type);
 
@@ -54,7 +54,7 @@ public class FabricNetworkRegistry implements INetworkRegistry {
     }
 
     @Override
-    public <T extends IPacket<T> & IServerEndpoint & IClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, IPacketReader<T> reader) {
+    public <T extends Packet<T> & ServerEndpoint & ClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, PacketReader<T> reader) {
         var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, (CustomPacketPayload.Type) type);
 
@@ -70,7 +70,7 @@ public class FabricNetworkRegistry implements INetworkRegistry {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends IPacket<T>> CustomPacketPayload.Type<PayloadWrapper<T>> getType(Class<T> aClass) {
+    <T extends Packet<T>> CustomPacketPayload.Type<PayloadWrapper<T>> getType(Class<T> aClass) {
         return (CustomPacketPayload.Type) typeRegistry.get(aClass);
     }
 }

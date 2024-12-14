@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 
-public class ForgeRegistrarManager implements IRegistrarManager {
+public class ForgeRegistrarManager implements RegistrarManager {
     private final String modId;
     private final IEventBus modEventBus;
 
@@ -16,7 +16,7 @@ public class ForgeRegistrarManager implements IRegistrarManager {
     }
 
     @Override
-    public <T> IRegistrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
+    public <T> Registrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
         return new ForgeRegistrar<>(DeferredRegister.create(key, modId), modEventBus, modId);
     }
 }
