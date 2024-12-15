@@ -1,6 +1,5 @@
 package dev.ultreon.mods.xinexlib.event.player;
 
-import dev.ultreon.mods.xinexlib.event.CancelableValue;
 import dev.ultreon.mods.xinexlib.event.level.LevelEvent;
 import dev.ultreon.mods.xinexlib.event.system.Cancelable;
 import net.minecraft.world.entity.Entity;
@@ -10,14 +9,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class AttackEntityEvent implements LevelEvent, Cancelable {
+public class PlayerAttackEntityEvent implements LevelEvent, Cancelable {
     private final Player attacker;
     private final Entity victim;
     private final Level level;
     private boolean canceled;
     private @Nullable EventResult eventResult;
 
-    public AttackEntityEvent(Player attacker, Level level, Entity victim) {
+    public PlayerAttackEntityEvent(Player attacker, Level level, Entity victim) {
         this.attacker = attacker;
         this.victim = victim;
         this.level = level;
@@ -48,7 +47,7 @@ public class AttackEntityEvent implements LevelEvent, Cancelable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof AttackEntityEvent that)) return false;
+        if (!(o instanceof PlayerAttackEntityEvent that)) return false;
         return Objects.equals(attacker, that.attacker) && Objects.equals(victim, that.victim) && Objects.equals(level, that.level);
     }
 

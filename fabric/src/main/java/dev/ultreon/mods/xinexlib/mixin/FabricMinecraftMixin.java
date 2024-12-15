@@ -1,9 +1,8 @@
 package dev.ultreon.mods.xinexlib.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import dev.ultreon.mods.xinexlib.client.event.ClientScreenOpenEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenOpenEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;

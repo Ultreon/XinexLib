@@ -2,7 +2,7 @@ package dev.ultreon.mods.xinexlib.client;
 
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.EnvExecutor;
-import dev.ultreon.mods.xinexlib.client.event.ClientScreenOpenEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenOpenEvent;
 import dev.ultreon.mods.xinexlib.client.event.LocalPlayerQuitEvent;
 import dev.ultreon.mods.xinexlib.client.render.TestEntityRenderer;
 import dev.ultreon.mods.xinexlib.client.render.model.TestEntityModel;

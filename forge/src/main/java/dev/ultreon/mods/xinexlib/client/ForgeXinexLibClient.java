@@ -1,7 +1,7 @@
 package dev.ultreon.mods.xinexlib.client;
 
-import dev.ultreon.mods.xinexlib.client.event.ClientScreenOpenEvent;
-import dev.ultreon.mods.xinexlib.client.event.ClientScreenPreInitEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenOpenEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPreInitEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.platform.XinexPlatform;
 import net.minecraftforge.client.event.ScreenEvent;

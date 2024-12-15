@@ -1,7 +1,7 @@
-package dev.ultreon.mods.xinexlib.client.event;
+package dev.ultreon.mods.xinexlib.client.event.screen;
 
+import dev.ultreon.mods.xinexlib.client.event.ClientScreenEvent;
 import dev.ultreon.mods.xinexlib.event.CancelableValue;
-import dev.ultreon.mods.xinexlib.event.system.Cancelable;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.Nullable;
 

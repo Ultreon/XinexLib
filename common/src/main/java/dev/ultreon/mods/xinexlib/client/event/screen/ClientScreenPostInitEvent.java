@@ -1,5 +1,6 @@
-package dev.ultreon.mods.xinexlib.client.event;
+package dev.ultreon.mods.xinexlib.client.event.screen;
 
+import dev.ultreon.mods.xinexlib.client.event.ClientScreenEvent;
 import net.minecraft.client.gui.screens.Screen;
 
 

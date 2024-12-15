@@ -4,6 +4,7 @@ import dev.ultreon.mods.xinexlib.client.NeoForgeXinexLibClient;
 import dev.ultreon.mods.xinexlib.event.SetupEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
+import dev.ultreon.mods.xinexlib.event.player.PlayerAttackEntityEvent;
 import dev.ultreon.mods.xinexlib.event.player.PlayerBreakBlockEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.platform.NeoForgePlatform;
@@ -96,7 +97,7 @@ public class NeoForgeXinexLib {
 
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event) {
-        dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent published = EventSystem.MAIN.publish(new dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent(event.getEntity(), event.getEntity().level(), event.getTarget()));
+        PlayerAttackEntityEvent published = EventSystem.MAIN.publish(new PlayerAttackEntityEvent(event.getEntity(), event.getEntity().level(), event.getTarget()));
         if (published.isCanceled()) {
             event.setCanceled(true);
         }

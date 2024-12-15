@@ -5,6 +5,7 @@ import dev.ultreon.mods.xinexlib.event.SetupEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseEntityEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
+import dev.ultreon.mods.xinexlib.event.player.PlayerAttackEntityEvent;
 import dev.ultreon.mods.xinexlib.event.player.PlayerBreakBlockEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import net.minecraft.world.entity.LivingEntity;
@@ -103,7 +104,7 @@ public class ForgeXinexLib {
 
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event) {
-        dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent published = EventSystem.MAIN.publish(new dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent(event.getEntity(), event.getEntity().level(), event.getTarget()));
+        PlayerAttackEntityEvent published = EventSystem.MAIN.publish(new PlayerAttackEntityEvent(event.getEntity(), event.getEntity().level(), event.getTarget()));
         if (published.isCanceled()) {
             event.setResult(Event.Result.DENY);
             event.setCanceled(true);

@@ -1,11 +1,11 @@
 package dev.ultreon.mods.xinexlib;
 
-import dev.ultreon.mods.xinexlib.client.event.ClientScreenPostInitEvent;
-import dev.ultreon.mods.xinexlib.client.event.ClientScreenPreInitEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPostInitEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPreInitEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseEntityEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
-import dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent;
+import dev.ultreon.mods.xinexlib.event.player.PlayerAttackEntityEvent;
 import dev.ultreon.mods.xinexlib.event.player.PlayerBreakBlockEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerStartedEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerStartingEvent;
@@ -68,7 +68,7 @@ public class FabricXinexLib implements ModInitializer {
     }
 
     private static InteractionResult attackEntity(Player player, Level level, InteractionHand interactionHand, Entity entity, @Nullable EntityHitResult entityHitResult) {
-        AttackEntityEvent publish = EventSystem.MAIN.publish(new AttackEntityEvent(player, level, entity));
+        PlayerAttackEntityEvent publish = EventSystem.MAIN.publish(new PlayerAttackEntityEvent(player, level, entity));
         if (publish.isCanceled()) {
             return InteractionResult.FAIL;
         }

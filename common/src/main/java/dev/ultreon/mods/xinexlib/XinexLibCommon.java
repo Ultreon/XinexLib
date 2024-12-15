@@ -15,7 +15,7 @@ import dev.ultreon.mods.xinexlib.event.entity.LivingHurtEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseEntityEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
-import dev.ultreon.mods.xinexlib.event.player.AttackEntityEvent;
+import dev.ultreon.mods.xinexlib.event.player.PlayerAttackEntityEvent;
 import dev.ultreon.mods.xinexlib.event.player.PlayerPlaceBlockEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerChatEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
@@ -204,7 +204,7 @@ public class XinexLibCommon {
             }
         });
 
-        EventSystem.MAIN.on(AttackEntityEvent.class, event -> {
+        EventSystem.MAIN.on(PlayerAttackEntityEvent.class, event -> {
             if (event.getVictim() instanceof Chicken) {
                 event.getVictim().level().explode(event.getVictim(), event.getVictim().position().x, event.getVictim().position().y, event.getVictim().position().z, 4, Level.ExplosionInteraction.MOB);
                 event.cancel();
