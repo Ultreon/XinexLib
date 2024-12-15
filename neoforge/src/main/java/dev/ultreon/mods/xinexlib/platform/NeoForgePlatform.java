@@ -5,8 +5,8 @@ import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.network.Networker;
 import dev.ultreon.mods.xinexlib.network.NeoForgeNetworker;
-import dev.ultreon.mods.xinexlib.platform.services.ClientPlatformHelper;
-import dev.ultreon.mods.xinexlib.platform.services.PlatformHelper;
+import dev.ultreon.mods.xinexlib.platform.services.ClientPlatform;
+import dev.ultreon.mods.xinexlib.platform.services.Platform;
 import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.registrar.NeoForgeRegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
@@ -22,17 +22,21 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
-public class NeoForgePlatformHelper implements PlatformHelper {
+public class NeoForgePlatform implements Platform {
+    public static NeoForgePlatform platform;
     private final HashMap<String, RegistrarManager> registrars = new HashMap<>();
     private final List<CommandRegistrant> registrants = new ArrayList<>();
     private IEventBus modEventBus;
-    private ClientPlatformHelper client;
+    private ClientPlatform client;
 
-    public NeoForgePlatformHelper() {
+    public NeoForgePlatform() {
+        platform = this;
+
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            client = new NeoForgeClientPlatformHelper();
+            client = new NeoForgeClientPlatform();
         }
 
         NeoForge.EVENT_BUS.addListener(RegisterCommandsEvent.class, event -> {
@@ -40,6 +44,10 @@ public class NeoForgePlatformHelper implements PlatformHelper {
                 registrant.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection());
             }
         });
+    }
+
+    public static NeoForgePlatform getPlatform() {
+        return (NeoForgePlatform) XinexPlatform.PLATFORM;
     }
 
     @Override
@@ -90,11 +98,16 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public ClientPlatformHelper client() {
+    public ClientPlatform client() {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             return client;
         }
         throw new IllegalStateException("This method should only be called on the client");
+    }
+
+    @Override
+    public Optional<Mod> getMod(String modId) {
+        return ModList.get().getModContainerById(modId).map(NeoForgeMod::new);
     }
 
     public void registerMod(String modId, IEventBus modEventBus) {

@@ -4,13 +4,14 @@ import net.minecraft.client.Minecraft;
 
 import java.util.Objects;
 
-public final class ClientStartedEvent {
+public final class ClientStartedEvent implements ClientEvent {
     private final Minecraft client;
 
     public ClientStartedEvent(Minecraft client) {
         this.client = client;
     }
 
+    @Override
     public Minecraft getClient() {
         return client;
     }

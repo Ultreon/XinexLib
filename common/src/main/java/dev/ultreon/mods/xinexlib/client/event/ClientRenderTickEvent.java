@@ -4,13 +4,14 @@ import net.minecraft.client.Minecraft;
 
 import java.util.Objects;
 
-public abstract class ClientRenderTickEvent {
+public abstract class ClientRenderTickEvent implements ClientEvent {
     private final Minecraft client;
 
     public ClientRenderTickEvent(Minecraft client) {
         this.client = client;
     }
 
+    @Override
     public Minecraft getClient() {
         return client;
     }

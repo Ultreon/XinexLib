@@ -7,14 +7,16 @@ import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
 import dev.ultreon.mods.xinexlib.components.ComponentManager;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.platform.CommandRegistrant;
+import dev.ultreon.mods.xinexlib.platform.Mod;
 import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
-public interface PlatformHelper {
+public interface Platform {
 
     /// Gets the name of the current platform
     ///
@@ -61,5 +63,7 @@ public interface PlatformHelper {
 
     void registerCommand(CommandRegistrant registrant);
 
-    ClientPlatformHelper client();
+    ClientPlatform client();
+
+    Optional<Mod> getMod(String modId);
 }

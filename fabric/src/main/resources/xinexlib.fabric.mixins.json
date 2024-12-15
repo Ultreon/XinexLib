@@ -5,10 +5,9 @@
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    
+    "FabricMinecraftMixin"
   ],
   "client": [
-
   ],
   "server": [],
   "injectors": {

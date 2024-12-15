@@ -6,8 +6,8 @@ import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.network.FabricNetworker;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.network.Networker;
-import dev.ultreon.mods.xinexlib.platform.services.ClientPlatformHelper;
-import dev.ultreon.mods.xinexlib.platform.services.PlatformHelper;
+import dev.ultreon.mods.xinexlib.platform.services.ClientPlatform;
+import dev.ultreon.mods.xinexlib.platform.services.Platform;
 import dev.ultreon.mods.xinexlib.registrar.FabricRegistrarManager;
 import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.FabricCreativeTabBuilder;
@@ -19,20 +19,17 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
-public class FabricPlatformHelper implements PlatformHelper {
+public class FabricPlatform implements Platform {
     private final List<CommandRegistrant> commandRegistrants = new ArrayList<>();
     private final Map<String, RegistrarManager> registrars = new HashMap<>();
-    private ClientPlatformHelper client;
+    private ClientPlatform client;
 
-    public FabricPlatformHelper() {
+    public FabricPlatform() {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            client = new FabricClientPlatformHelper();
+            client = new FabricClientPlatform();
         }
 
         CommandRegistrationCallback.EVENT.register(this::register);
@@ -87,11 +84,16 @@ public class FabricPlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public ClientPlatformHelper client() {
+    public ClientPlatform client() {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             return client;
         }
         throw new IllegalStateException("This method should only be called on the client");
+    }
+
+    @Override
+    public Optional<Mod> getMod(String modId) {
+        return FabricLoader.getInstance().getModContainer(modId).map(FabricMod::new);
     }
 
     private void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registryAccess, Commands.CommandSelection environment) {

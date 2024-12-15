@@ -4,7 +4,7 @@ import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.network.endpoint.ClientEndpoint;
 import dev.ultreon.mods.xinexlib.network.endpoint.ServerEndpoint;
 import dev.ultreon.mods.xinexlib.network.packet.Packet;
-import dev.ultreon.mods.xinexlib.platform.Services;
+import dev.ultreon.mods.xinexlib.platform.XinexPlatform;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -36,7 +36,7 @@ public class FabricNetworkRegistry implements NetworkRegistry {
                         (buf, wrapper) -> wrapper.write(buf),
                         (buf) -> new PayloadWrapper<>(type, reader.read(buf))
                 ));
-        if (Services.getEnv() == Env.CLIENT)
+        if (XinexPlatform.getEnv() == Env.CLIENT)
             ClientPlayNetworking.registerGlobalReceiver(type, (packet, context) -> packet.packet.handle(this.networker));
     }
 
@@ -64,7 +64,7 @@ public class FabricNetworkRegistry implements NetworkRegistry {
         );
         PayloadTypeRegistry.playS2C().register(type, codec);
         PayloadTypeRegistry.playC2S().register(type, codec);
-        if (Services.getEnv() == Env.CLIENT)
+        if (XinexPlatform.getEnv() == Env.CLIENT)
             ClientPlayNetworking.registerGlobalReceiver(type, (packet, context) -> packet.packet.handle(networker));
         ServerPlayNetworking.registerGlobalReceiver(type, (packet, context) -> packet.packet.handle(networker, context.player()));
     }

@@ -22,7 +22,7 @@ import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.item.XinexBlockItem;
 import dev.ultreon.mods.xinexlib.nbt.DataKeys;
 import dev.ultreon.mods.xinexlib.network.Networker;
-import dev.ultreon.mods.xinexlib.platform.Services;
+import dev.ultreon.mods.xinexlib.platform.XinexPlatform;
 import dev.ultreon.mods.xinexlib.registrar.Registrar;
 import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import net.minecraft.commands.Commands;
@@ -60,8 +60,8 @@ import java.util.Random;
 
 /// @author XyperCode
 /// @since 0.1.0 (December 10, 2024)
-public class CommonClass {
-    private CommonClass() {
+public class XinexLibCommon {
+    private XinexLibCommon() {
 
     }
 
@@ -73,9 +73,9 @@ public class CommonClass {
 
     /// This method is invoked by the provided mod loader when it is ready to load the XinexLib mod.
     public static void init() {
-        Runtime.getRuntime().addShutdownHook(new Thread(CommonClass::shutdown));
+        Runtime.getRuntime().addShutdownHook(new Thread(XinexLibCommon::shutdown));
 
-        if (Services.isDevelopmentEnvironment() && "true".equals(System.getProperty("xinexlib.dev"))) {
+        if (XinexPlatform.isDevelopmentEnvironment() && "true".equals(System.getProperty("xinexlib.dev"))) {
             initDev();
         }
 
@@ -103,7 +103,7 @@ public class CommonClass {
     }
 
     private static void initDev() {
-        RegistrarManager registrarManager = Services.getRegistrarManager(Constants.MOD_ID);
+        RegistrarManager registrarManager = XinexPlatform.getRegistrarManager(Constants.MOD_ID);
         Registrar<Block> blockRegistrar = registrarManager.getRegistrar(Registries.BLOCK);
         var testBlock = blockRegistrar.register("test_block", () -> new Block(BlockBehaviour.Properties.of().requiresCorrectToolForDrops()));
         var secondBlock = blockRegistrar.register("second_block", () -> new Block(BlockBehaviour.Properties.of().requiresCorrectToolForDrops()));
@@ -112,7 +112,7 @@ public class CommonClass {
         var testBlockItem = itemRegistrar.register("test_block_item", () -> new XinexBlockItem(testBlock, new Item.Properties().stacksTo(1)));
         var secondBlockItem = itemRegistrar.register("second_block_item", () -> new XinexBlockItem(secondBlock, new Item.Properties().stacksTo(1)));
         Registrar<CreativeModeTab> creativeModeTabRegistrar = registrarManager.getRegistrar(Registries.CREATIVE_MODE_TAB);
-        var testTab = creativeModeTabRegistrar.register("test_tab", () -> Services.creativeTabBuilder().icon(() -> new ItemStack(testBlockItem)).displayItems((itemDisplayParameters, output) -> {
+        var testTab = creativeModeTabRegistrar.register("test_tab", () -> XinexPlatform.creativeTabBuilder().icon(() -> new ItemStack(testBlockItem)).displayItems((itemDisplayParameters, output) -> {
             output.accept(new ItemStack(testItem));
             output.accept(new ItemStack(testBlockItem));
             output.accept(new ItemStack(secondBlockItem));
@@ -237,7 +237,7 @@ public class CommonClass {
             }
         }
 
-        ComponentManager componentManager = Services.getComponentManager(Constants.MOD_ID);
+        ComponentManager componentManager = XinexPlatform.getComponentManager(Constants.MOD_ID);
         ComponentHolder<Entity, TestyComponent> testy = componentManager.registerComponent("testy", new EntityComponentBuilder<TestyComponent>(TestyComponent.class)
                 .factory(entity -> new TestyComponent("John Doe"))
                 .target(EntityType.PLAYER));
@@ -258,12 +258,12 @@ public class CommonClass {
 
         Constants.LOG.info("The developer mode is enabled!");
 
-        Networker networker = Services.createNetworker(Constants.MOD_ID, iNetworkRegistry -> {
+        Networker networker = XinexPlatform.createNetworker(Constants.MOD_ID, iNetworkRegistry -> {
             iNetworkRegistry.registerClient("packet2client", PacketToClient.class, PacketToClient::read);
 //            iNetworkRegistry.registerServer("packet2server", PacketToServer.class, PacketToServer::read);
         });
 
-        Services.registerCommand((dispatcher, registryAccess, environment) -> {
+        XinexPlatform.registerCommand((dispatcher, registryAccess, environment) -> {
             dispatcher.register(Commands.literal("xinex-dev:packets")
                     .then(Commands.literal("packet")
                             .then(Commands.argument("message", StringArgumentType.greedyString())

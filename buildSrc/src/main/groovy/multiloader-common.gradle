@@ -3,6 +3,10 @@ plugins {
     id 'maven-publish'
 }
 
+if (project.hasProperty('ci') && project.ci.toBoolean() && project.hasProperty('snapshot') && project.snapshot.toBoolean()) {
+    version += '-SNAPSHOT'
+}
+
 base {
     archivesName = "${mod_id}-${project.name}-${minecraft_version}"
 }

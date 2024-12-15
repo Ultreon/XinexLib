@@ -20,10 +20,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.ultreon.mods.xinexlib.XinexLib"
+      "dev.ultreon.mods.xinexlib.FabricXinexLib"
     ],
     "client": [
-      "dev.ultreon.mods.xinexlib.client.XinexLibClient"
+      "dev.ultreon.mods.xinexlib.client.FabricXinexLibClient"
     ],
     "cardinal-components-entity": [
       "dev.ultreon.mods.xinexlib.platform.components.EntityComponents"

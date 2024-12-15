@@ -1,5 +1,7 @@
 package dev.ultreon.mods.xinexlib;
 
+import dev.ultreon.mods.xinexlib.client.event.ClientScreenPostInitEvent;
+import dev.ultreon.mods.xinexlib.client.event.ClientScreenPreInitEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseEntityEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
@@ -11,8 +13,11 @@ import dev.ultreon.mods.xinexlib.event.server.ServerStoppedEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerStoppingEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
@@ -28,7 +33,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class XinexLib implements ModInitializer {
+public class FabricXinexLib implements ModInitializer {
     private static InteractionResult interact(Player player, Level world, InteractionHand hand, BlockHitResult hitResult) {
         return EventSystem.MAIN.publish(new UseBlockEvent(hitResult, player, world)).get();
     }
@@ -71,6 +76,14 @@ public class XinexLib implements ModInitializer {
         return InteractionResult.PASS;
     }
 
+    private static void beforeScreenInit(Minecraft client, Screen screen, int scaledWidth, int scaledHeight) {
+        EventSystem.MAIN.publish(new ClientScreenPreInitEvent(screen));
+    }
+
+    private static void afterScreenInit(Minecraft client, Screen screen, int scaledWidth, int scaledHeight) {
+        EventSystem.MAIN.publish(new ClientScreenPostInitEvent(screen));
+    }
+
     @Override
     public void onInitialize() {
 
@@ -80,19 +93,22 @@ public class XinexLib implements ModInitializer {
 
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
-        CommonClass.init();
+        XinexLibCommon.init();
 
-        PlayerBlockBreakEvents.AFTER.register(XinexLib::afterBlockBreak);
+        PlayerBlockBreakEvents.AFTER.register(FabricXinexLib::afterBlockBreak);
 
-        ServerLifecycleEvents.SERVER_STARTING.register(XinexLib::onServerStarting);
-        ServerLifecycleEvents.SERVER_STOPPING.register(XinexLib::onServerStopping);
-        ServerLifecycleEvents.SERVER_STARTED.register(XinexLib::onServerStarted);
-        ServerLifecycleEvents.SERVER_STOPPED.register(XinexLib::onServerStopped);
+        ServerLifecycleEvents.SERVER_STARTING.register(FabricXinexLib::onServerStarting);
+        ServerLifecycleEvents.SERVER_STOPPING.register(FabricXinexLib::onServerStopping);
+        ServerLifecycleEvents.SERVER_STARTED.register(FabricXinexLib::onServerStarted);
+        ServerLifecycleEvents.SERVER_STOPPED.register(FabricXinexLib::onServerStopped);
 
-        UseBlockCallback.EVENT.register(XinexLib::interact);
-        UseItemCallback.EVENT.register(XinexLib::interactItem);
-        UseEntityCallback.EVENT.register(XinexLib::interactEntity);
+        UseBlockCallback.EVENT.register(FabricXinexLib::interact);
+        UseItemCallback.EVENT.register(FabricXinexLib::interactItem);
+        UseEntityCallback.EVENT.register(FabricXinexLib::interactEntity);
 
-        AttackEntityCallback.EVENT.register(XinexLib::attackEntity);
+        AttackEntityCallback.EVENT.register(FabricXinexLib::attackEntity);
+
+        ScreenEvents.BEFORE_INIT.register(FabricXinexLib::beforeScreenInit);
+        ScreenEvents.AFTER_INIT.register(FabricXinexLib::afterScreenInit);
     }
 }

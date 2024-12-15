@@ -1,10 +1,10 @@
 package dev.ultreon.mods.xinexlib.platform;
 
 import dev.ultreon.mods.xinexlib.platform.client.ForgeEntityRendererRegistry;
-import dev.ultreon.mods.xinexlib.platform.services.ClientPlatformHelper;
+import dev.ultreon.mods.xinexlib.platform.services.ClientPlatform;
 import dev.ultreon.mods.xinexlib.platform.services.EntityRendererRegistry;
 
-public class ForgeClientPlatformHelper implements ClientPlatformHelper {
+public class ForgeClientPlatform implements ClientPlatform {
     private final EntityRendererRegistry entityRenderers = new ForgeEntityRendererRegistry();
 
     @Override

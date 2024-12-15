@@ -5,8 +5,8 @@ import dev.ultreon.mods.xinexlib.ModPlatform;
 import dev.ultreon.mods.xinexlib.network.ForgeNetworker;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.network.Networker;
-import dev.ultreon.mods.xinexlib.platform.services.ClientPlatformHelper;
-import dev.ultreon.mods.xinexlib.platform.services.PlatformHelper;
+import dev.ultreon.mods.xinexlib.platform.services.ClientPlatform;
+import dev.ultreon.mods.xinexlib.platform.services.Platform;
 import dev.ultreon.mods.xinexlib.registrar.ForgeRegistrarManager;
 import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.ForgeCreativeTabBuilder;
@@ -19,19 +19,16 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
-public class ForgePlatformHelper implements PlatformHelper {
+public class ForgePlatform implements Platform {
     private final List<CommandRegistrant> registrants = new ArrayList<>();
     private final Map<String, RegistrarManager> registrars = new HashMap<>();
-    private ClientPlatformHelper client;
+    private ClientPlatform client;
 
-    public ForgePlatformHelper() {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> this.client = new ForgeClientPlatformHelper());
+    public ForgePlatform() {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> this.client = new ForgeClientPlatform());
 
         MinecraftForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> {
             var dispatcher = event.getDispatcher();
@@ -91,10 +88,15 @@ public class ForgePlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public ClientPlatformHelper client() {
+    public ClientPlatform client() {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             return client;
         }
         throw new IllegalStateException("This method should only be called on the client");
+    }
+
+    @Override
+    public Optional<Mod> getMod(String modId) {
+        return ModList.get().getModContainerById(modId).map(ForgeMod::new);
     }
 }
