@@ -72,6 +72,14 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
+configurations {
+    inclusion {
+        canBeResolved = true
+    }
+}
+
+jarJar.enable()
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
@@ -84,18 +92,43 @@ dependencies {
     api(fg.deobf('io.github.llamalad7:mixinextras-forge:0.4.1') { version { strictly '0.4.1' } })
     annotationProcessor(group: 'io.github.llamalad7', name: 'mixinextras-forge', version: '0.4.1') { version { strictly '0.4.1' } }
 
-    jarJar minecraftLibrary(library('io.projectreactor:reactor-core:3.5.5'))
-    jarJar minecraftLibrary(library('org.reactivestreams:reactive-streams:1.0.4'))
-    jarJar minecraftLibrary(library('org.hjson:hjson:3.1.0'))
+    minecraftLibrary('io.projectreactor:reactor-core:3.5.5') { version { strictly '[3.5.5, 4.0.0)' } }
+    library('io.projectreactor:reactor-core:3.5.5') { version { strictly '[3.5.5, 4.0.0)' } }
+    jarJar(group: 'io.projectreactor', name: 'reactor-core', version: '[3.5, 4.0)') {
+        jarJar.pin(it, "3.5.5")
+    }
+
+    minecraftLibrary('org.reactivestreams:reactive-streams:1.0.4') { version { strictly '[1.0.4, 1.1.0)' } }
+    library('org.reactivestreams:reactive-streams:1.0.4') { version { strictly '[1.0.4, 1.1.0)' } }
+    jarJar(group: 'org.reactivestreams', name: 'reactive-streams', version: '[1.0,1.1)') {
+        jarJar.pin(it, "1.0.4")
+    }
+
+    minecraftLibrary('org.hjson:hjson:3.1.0') { version { strictly '[3.1.0,4.0.0)' } }
+    library('org.hjson:hjson:3.1.0') { version { strictly '[3.1.0,4.0.0)' } }
+    jarJar(group: 'org.hjson', name: 'hjson', version: '[3.1,4.0)') {
+        jarJar.pin(it, "3.1.0")
+    }
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             fg.component(it)
+            jarJar.component(it)
         }
     }
 }
+
+tasks.named('jarJar') {
+    dependencies {
+        include(dependency('io.projectreactor:reactor-core'))
+        include(dependency('org.reactivestreams:reactive-streams'))
+        include(dependency('org.hjson:hjson'))
+    }
+}
+
+jar.dependsOn(tasks.jarJar)
 
 sourceSets.each {
     def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
