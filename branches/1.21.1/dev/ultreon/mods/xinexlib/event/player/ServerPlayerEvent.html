@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></code>, <code><a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></code>, <code><a href="../entity/PositionEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">PositionEvent</a></code>, <code><a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></code></dd>
+<dd><code><a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></code>, <code><a href="../level/LevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">LevelEvent</a></code>, <code><a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></code>, <code><a href="../entity/PositionEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">PositionEvent</a></code>, <code><a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></code>, <code><a href="../level/ServerLevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">ServerLevelEvent</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ServerPlayerEvent</span><span class="extends-implements">
-extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a>, <a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></span></div>
+extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a>, <a href="../level/ServerLevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">ServerLevelEvent</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -111,21 +111,27 @@ extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.world.entity.Entity</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getEntity()" class="member-name-link">getEntity</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.world.level.Level</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getLevel()" class="member-name-link">getLevel</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>net.minecraft.server.level.ServerPlayer</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.server.MinecraftServer</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getServer()" class="member-name-link">getServer</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.world.phys.Vec3</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getPosition()" class="member-name-link">getPosition</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.server.MinecraftServer</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getServer()" class="member-name-link">getServer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default net.minecraft.server.level.ServerLevel</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getServerLevel()" class="member-name-link">getServerLevel</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 </div>
 </div>
 </div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-dev.ultreon.mods.xinexlib.event.entity.EntityEvent">Methods inherited from interface&nbsp;dev.ultreon.mods.xinexlib.event.entity.<a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></h3>
-<code><a href="../entity/EntityEvent.html#getPosition()">getPosition</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-dev.ultreon.mods.xinexlib.event.player.PlayerEvent">Methods inherited from interface&nbsp;dev.ultreon.mods.xinexlib.event.player.<a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></h3>
-<code><a href="PlayerEvent.html#getEntity()">getEntity</a></code></div>
 </section>
 </li>
 </ul>
@@ -148,12 +154,62 @@ extends <a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib
 </section>
 </li>
 <li>
+<section class="detail" id="getEntity()">
+<h3>getEntity</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">net.minecraft.world.entity.Entity</span>&nbsp;<span class="element-name">getEntity</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../entity/EntityEvent.html#getEntity()">getEntity</a></code>&nbsp;in interface&nbsp;<code><a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="PlayerEvent.html#getEntity()">getEntity</a></code>&nbsp;in interface&nbsp;<code><a href="PlayerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">PlayerEvent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getPosition()">
+<h3>getPosition</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">net.minecraft.world.phys.Vec3</span>&nbsp;<span class="element-name">getPosition</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../entity/EntityEvent.html#getPosition()">getPosition</a></code>&nbsp;in interface&nbsp;<code><a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="../entity/PositionEvent.html#getPosition()">getPosition</a></code>&nbsp;in interface&nbsp;<code><a href="../entity/PositionEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">PositionEvent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getLevel()">
+<h3>getLevel</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">net.minecraft.world.level.Level</span>&nbsp;<span class="element-name">getLevel</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../entity/EntityEvent.html#getLevel()">getLevel</a></code>&nbsp;in interface&nbsp;<code><a href="../entity/EntityEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.entity">EntityEvent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="../level/LevelEvent.html#getLevel()">getLevel</a></code>&nbsp;in interface&nbsp;<code><a href="../level/LevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">LevelEvent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="../level/ServerLevelEvent.html#getLevel()">getLevel</a></code>&nbsp;in interface&nbsp;<code><a href="../level/ServerLevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">ServerLevelEvent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getServer()">
 <h3>getServer</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">net.minecraft.server.MinecraftServer</span>&nbsp;<span class="element-name">getServer</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="ServerEvent.html#getServer()">getServer</a></code>&nbsp;in interface&nbsp;<code><a href="ServerEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.player">ServerEvent</a></code></dd>
+<dt>Specified by:</dt>
+<dd><code><a href="../level/ServerLevelEvent.html#getServer()">getServer</a></code>&nbsp;in interface&nbsp;<code><a href="../level/ServerLevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">ServerLevelEvent</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getServerLevel()">
+<h3>getServerLevel</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">net.minecraft.server.level.ServerLevel</span>&nbsp;<span class="element-name">getServerLevel</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../level/ServerLevelEvent.html#getServerLevel()">getServerLevel</a></code>&nbsp;in interface&nbsp;<code><a href="../level/ServerLevelEvent.html" title="interface in dev.ultreon.mods.xinexlib.event.level">ServerLevelEvent</a></code></dd>
 </dl>
 </section>
 </li>
