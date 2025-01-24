@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -56,5 +57,17 @@ public class ForgeRegistrar<T> implements Registrar<T> {
     @Override
     public @NotNull Iterator<RegistrySupplier<?, T>> iterator() {
         return registryObjects.iterator();
+    }
+
+    public void create() {
+        deferredRegister.makeRegistry(ForgeRegistrar::builder);
+    }
+
+    public void createDefault(Supplier<T> fallback) {
+        deferredRegister.makeRegistry(() -> ForgeRegistrar.<T>builder().missing((key, isNetwork) -> fallback.get()));
+    }
+
+    private static <T> RegistryBuilder<T> builder() {
+        return new RegistryBuilder<T>().disableOverrides().allowModification();
     }
 }

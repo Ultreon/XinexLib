@@ -12,6 +12,11 @@ public class FabricRegistrarManager implements RegistrarManager {
 
     @Override
     public <T> Registrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
-        return new FabricRegistrar<>(key, modId);
+        return new FabricRegistrar<>(key, modId).retrieve();
+    }
+
+    @Override
+    public <T> Registrar<T> createRegistrar(ResourceKey<Registry<T>> key, Class<T> clazz) {
+        return new FabricRegistrar<>(key, modId).create();
     }
 }

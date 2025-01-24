@@ -4,6 +4,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -44,5 +45,10 @@ public class NeoForgeRegistrar<T> implements Registrar<T> {
     @Override
     public @NotNull Iterator<RegistrySupplier<?, T>> iterator() {
         return this.values.iterator();
+    }
+
+    public NeoForgeRegistrar<T> create() {
+        this.deferredRegister.makeRegistry(RegistryBuilder::create);
+        return this;
     }
 }

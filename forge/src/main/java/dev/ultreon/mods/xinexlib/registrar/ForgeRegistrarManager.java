@@ -19,4 +19,12 @@ public class ForgeRegistrarManager implements RegistrarManager {
     public <T> Registrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
         return new ForgeRegistrar<>(DeferredRegister.create(key, modId), modEventBus, modId);
     }
+
+    @Override
+    public <T> Registrar<T> createRegistrar(ResourceKey<Registry<T>> key, Class<T> clazz) {
+        ForgeRegistrar<T> registrar = new ForgeRegistrar<>(DeferredRegister.create(key, modId), modEventBus, modId);
+        registrar.create();
+        return registrar;
+    }
+
 }

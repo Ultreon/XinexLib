@@ -1,5 +1,7 @@
 package dev.ultreon.mods.xinexlib.registrar;
 
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -14,14 +16,13 @@ import java.util.function.Supplier;
 public class FabricRegistrar<T> implements Registrar<T> {
     private final ResourceKey<Registry<T>> key;
     private final String modId;
-    private final Registry<T> registry;
+    private Registry<T> registry;
     private final List<RegistrySupplier<?, T>> suppliers = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     public FabricRegistrar(ResourceKey<Registry<T>> key, String modId) {
         this.key = key;
         this.modId = modId;
-        this.registry = BuiltInRegistries.REGISTRY.get((ResourceKey) key);
     }
 
     @Override
@@ -58,5 +59,15 @@ public class FabricRegistrar<T> implements Registrar<T> {
     @Override
     public @NotNull Iterator<RegistrySupplier<?, T>> iterator() {
         return suppliers.iterator();
+    }
+
+    public Registrar<T> create() {
+        this.registry = FabricRegistryBuilder.createSimple(key).attribute(RegistryAttribute.MODDED).buildAndRegister();
+        return this;
+    }
+
+    public Registrar<T> retrieve() {
+        this.registry = BuiltInRegistries.REGISTRY.get((ResourceKey) key);
+        return this;
     }
 }

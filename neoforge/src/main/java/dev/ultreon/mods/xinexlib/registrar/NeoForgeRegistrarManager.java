@@ -18,4 +18,9 @@ public class NeoForgeRegistrarManager implements RegistrarManager {
     public <T> Registrar<T> getRegistrar(ResourceKey<Registry<T>> key) {
         return new NeoForgeRegistrar<>(DeferredRegister.create(key, modId), modEventBus);
     }
+
+    @Override
+    public <T> Registrar<T> createRegistrar(ResourceKey<Registry<T>> key, Class<T> clazz) {
+        return new NeoForgeRegistrar<>(DeferredRegister.create(key, modId), modEventBus).create();
+    }
 }
