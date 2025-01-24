@@ -21,6 +21,11 @@ public abstract class EntitySpawnEvent implements ServerLevelEvent, EntityEvent,
     }
 
     @Override
+    public ServerLevel getLevel() {
+        return level;
+    }
+
+    @Override
     public Entity getEntity() {
         return entity;
     }
