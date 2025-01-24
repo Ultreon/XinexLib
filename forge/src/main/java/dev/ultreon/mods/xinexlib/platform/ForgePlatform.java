@@ -2,6 +2,8 @@ package dev.ultreon.mods.xinexlib.platform;
 
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
+import dev.ultreon.mods.xinexlib.components.ComponentManager;
+import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
 import dev.ultreon.mods.xinexlib.network.ForgeNetworker;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.network.Networker;
@@ -26,6 +28,7 @@ public class ForgePlatform implements Platform {
     private final List<CommandRegistrant> registrants = new ArrayList<>();
     private final Map<String, RegistrarManager> registrars = new HashMap<>();
     private ClientPlatform client;
+    private final Map<String, ComponentManager> componentManagers = new HashMap<>();
 
     public ForgePlatform() {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> this.client = new ForgeClientPlatform());
@@ -62,6 +65,12 @@ public class ForgePlatform implements Platform {
 
         this.registrars.put(modId, new ForgeRegistrarManager(modId));
         return this.registrars.get(modId);
+    }
+
+
+    @Override
+    public ComponentManager getComponentManager(String modId) {
+        return componentManagers.computeIfAbsent(modId, SimpleComponentManager::new);
     }
 
     @Override

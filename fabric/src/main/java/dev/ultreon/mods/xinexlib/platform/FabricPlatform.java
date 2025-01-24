@@ -3,6 +3,8 @@ package dev.ultreon.mods.xinexlib.platform;
 import com.mojang.brigadier.CommandDispatcher;
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
+import dev.ultreon.mods.xinexlib.components.ComponentManager;
+import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
 import dev.ultreon.mods.xinexlib.network.FabricNetworker;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.network.Networker;
@@ -26,6 +28,7 @@ public class FabricPlatform implements Platform {
     private final List<CommandRegistrant> commandRegistrants = new ArrayList<>();
     private final Map<String, RegistrarManager> registrars = new HashMap<>();
     private ClientPlatform client;
+    private final Map<String, ComponentManager> componentManagers = new HashMap<>();
 
     public FabricPlatform() {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
@@ -58,6 +61,11 @@ public class FabricPlatform implements Platform {
 
         this.registrars.put(modId, new FabricRegistrarManager(modId));
         return this.registrars.get(modId);
+    }
+
+    @Override
+    public ComponentManager getComponentManager(String modId) {
+        return componentManagers.computeIfAbsent(modId, SimpleComponentManager::new);
     }
 
     @Override

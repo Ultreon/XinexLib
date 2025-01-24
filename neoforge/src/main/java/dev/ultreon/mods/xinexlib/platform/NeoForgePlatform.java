@@ -2,6 +2,8 @@ package dev.ultreon.mods.xinexlib.platform;
 
 import dev.ultreon.mods.xinexlib.Env;
 import dev.ultreon.mods.xinexlib.ModPlatform;
+import dev.ultreon.mods.xinexlib.components.ComponentManager;
+import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
 import dev.ultreon.mods.xinexlib.network.NetworkRegistry;
 import dev.ultreon.mods.xinexlib.network.Networker;
 import dev.ultreon.mods.xinexlib.network.NeoForgeNetworker;
@@ -31,6 +33,7 @@ public class NeoForgePlatform implements Platform {
     private final List<CommandRegistrant> registrants = new ArrayList<>();
     private IEventBus modEventBus;
     private ClientPlatform client;
+    private final HashMap<String, ComponentManager> componentManagers = new HashMap<>();
 
     public NeoForgePlatform() {
         platform = this;
@@ -72,6 +75,11 @@ public class NeoForgePlatform implements Platform {
             throw new IllegalStateException("No registrar manager found for mod " + modId + " did you register the mod?");
         }
         return registrarManager;
+    }
+
+    @Override
+    public ComponentManager getComponentManager(String modId) {
+        return componentManagers.computeIfAbsent(modId, SimpleComponentManager::new);
     }
 
     @Override
