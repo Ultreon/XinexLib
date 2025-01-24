@@ -38,7 +38,7 @@ neoForge {
 }
 
 dependencies {
-    jarJar(implementation(group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5')) {
+    jarJar(api(group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5')) {
         version {
             // The version range your mod is actually compatible with.
             // Note that you may receive a *lower* version than your preferred if another
@@ -47,7 +47,7 @@ dependencies {
             prefer '3.5.5' // The version actually used in your dev workspace
         }
     }
-    jarJar(implementation('org.reactivestreams:reactive-streams:1.0.4')) {
+    jarJar(api('org.reactivestreams:reactive-streams:1.0.4')) {
         version {
             // The version range your mod is actually compatible with.
             // Note that you may receive a *lower* version than your preferred if another
@@ -60,7 +60,7 @@ dependencies {
     serverAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
     dataAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
 
-    implementation group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'
+    api group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'
     annotationProcessor group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'
 }
 

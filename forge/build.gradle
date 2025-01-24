@@ -78,9 +78,10 @@ dependencies {
 
     // Forge's hack fix
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
-    compileOnly('io.github.llamalad7:mixinextras-common:0.4.1') { version { strictly '0.4.1' } }
+
+    compileOnlyApi('io.github.llamalad7:mixinextras-common:0.4.1') { version { strictly '0.4.1' } }
     annotationProcessor(group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1') { version { strictly '0.4.1' } }
-    implementation(fg.deobf('io.github.llamalad7:mixinextras-forge:0.4.1') { version { strictly '0.4.1' } })
+    api(fg.deobf('io.github.llamalad7:mixinextras-forge:0.4.1') { version { strictly '0.4.1' } })
     annotationProcessor(group: 'io.github.llamalad7', name: 'mixinextras-forge', version: '0.4.1') { version { strictly '0.4.1' } }
 
     jarJar minecraftLibrary('io.projectreactor:reactor-core:3.5.5')
