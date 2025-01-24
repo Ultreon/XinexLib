@@ -21,6 +21,7 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -102,6 +103,11 @@ public class FabricPlatform implements Platform {
     @Override
     public Optional<Mod> getMod(String modId) {
         return FabricLoader.getInstance().getModContainer(modId).map(FabricMod::new);
+    }
+
+    @Override
+    public Path getConfigDir() {
+        return FabricLoader.getInstance().getConfigDir();
     }
 
     private void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registryAccess, Commands.CommandSelection environment) {

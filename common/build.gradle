@@ -22,8 +22,9 @@ dependencies {
     compileOnlyApi group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1'
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1'
 
-    // Project Reactor
-    api group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
+    // Extra dependencies
+    library("io.projectreactor:reactor-core:3.5.5")
+    library("org.hjson:hjson:3.1.0")
 }
 
 configurations {

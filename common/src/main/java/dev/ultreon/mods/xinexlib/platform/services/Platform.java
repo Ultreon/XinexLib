@@ -13,6 +13,7 @@ import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
 import net.minecraft.world.item.CreativeModeTab;
 
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -87,4 +88,6 @@ public interface Platform {
     /// @param modId The mod id
     /// @return The mod information or an empty optional
     Optional<Mod> getMod(String modId);
+
+    Path getConfigDir();
 }

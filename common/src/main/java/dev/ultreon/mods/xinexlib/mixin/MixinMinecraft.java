@@ -1,8 +1,9 @@
 package dev.ultreon.mods.xinexlib.mixin;
 
 import com.mojang.blaze3d.platform.Window;
-import dev.ultreon.mods.xinexlib.client.event.ClientRenderTickEvent;
+import dev.ultreon.mods.xinexlib.client.event.ClientTickEvent;
 import dev.ultreon.mods.xinexlib.client.event.ClientStartedEvent;
+import dev.ultreon.mods.xinexlib.client.event.ClientStoppedEvent;
 import dev.ultreon.mods.xinexlib.client.event.ClientStoppingEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import net.minecraft.client.Minecraft;
@@ -32,16 +33,18 @@ public abstract class MixinMinecraft {
         if (event.isCanceled()) {
             GLFW.glfwSetWindowShouldClose(window.getWindow(), false);
             ci.cancel();
+        } else {
+            EventSystem.MAIN.publish(new ClientStoppedEvent((Minecraft) (Object) this));
         }
     }
 
     @Inject(at = @At("HEAD"), method = "runTick")
     private void runTick$head(CallbackInfo ci) {
-        EventSystem.MAIN.publish(new ClientRenderTickEvent.Pre((Minecraft) (Object) this));
+        EventSystem.MAIN.publish(new ClientTickEvent.Pre((Minecraft) (Object) this));
     }
 
     @Inject(at = @At("RETURN"), method = "runTick")
     private void runTick$return(CallbackInfo ci) {
-        EventSystem.MAIN.publish(new ClientRenderTickEvent.Post((Minecraft) (Object) this));
+        EventSystem.MAIN.publish(new ClientTickEvent.Post((Minecraft) (Object) this));
     }
 }

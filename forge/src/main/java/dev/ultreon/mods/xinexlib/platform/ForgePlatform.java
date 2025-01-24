@@ -20,7 +20,9 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -107,5 +109,10 @@ public class ForgePlatform implements Platform {
     @Override
     public Optional<Mod> getMod(String modId) {
         return ModList.get().getModContainerById(modId).map(ForgeMod::new);
+    }
+
+    @Override
+    public Path getConfigDir() {
+        return FMLPaths.CONFIGDIR.get();
     }
 }

@@ -10,6 +10,7 @@ import dev.ultreon.mods.xinexlib.platform.services.ClientPlatform;
 import dev.ultreon.mods.xinexlib.registrar.RegistrarManager;
 import dev.ultreon.mods.xinexlib.tabs.CreativeModeTabBuilder;
 
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Consumer;
@@ -89,5 +90,9 @@ public class XinexPlatform {
 
     public static ClientPlatform client() {
         return PLATFORM.client();
+    }
+
+    public static Path getConfigDir() {
+        return PLATFORM.getConfigDir();
     }
 }

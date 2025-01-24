@@ -18,9 +18,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,6 +118,11 @@ public class NeoForgePlatform implements Platform {
     @Override
     public Optional<Mod> getMod(String modId) {
         return ModList.get().getModContainerById(modId).map(NeoForgeMod::new);
+    }
+
+    @Override
+    public Path getConfigDir() {
+        return FMLPaths.CONFIGDIR.get();
     }
 
     public void registerMod(String modId, IEventBus modEventBus) {

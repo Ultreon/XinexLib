@@ -7,6 +7,18 @@ if (project.hasProperty('ci') && project.ci.toBoolean() && project.hasProperty('
     version += '-SNAPSHOT'
 }
 
+configurations {
+    library {
+        extendsFrom api
+    }
+
+    compileClasspath.extendsFrom library
+    apiElements.extendsFrom library
+    runtimeElements.extendsFrom library
+    sourcesElements.extendsFrom library
+    javadocElements.extendsFrom library
+}
+
 base {
     archivesName = "${mod_id}-${project.name}-${minecraft_version}"
 }

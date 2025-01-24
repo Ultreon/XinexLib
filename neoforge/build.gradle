@@ -37,6 +37,16 @@ neoForge {
     }
 }
 
+configurations {
+    additionalClasspath {
+        extendsFrom api
+    }
+
+    clientAdditionalRuntimeClasspath.extendsFrom additionalClasspath
+    serverAdditionalRuntimeClasspath.extendsFrom additionalClasspath
+    dataAdditionalRuntimeClasspath.extendsFrom additionalClasspath
+}
+
 dependencies {
     jarJar(api(group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5')) {
         version {
@@ -56,9 +66,10 @@ dependencies {
             prefer '1.0.4' // The version actually used in your dev workspace
         }
     }
-    clientAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
-    serverAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
-    dataAdditionalRuntimeClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
+    additionalClasspath group: 'io.projectreactor', name: 'reactor-core', version: '3.5.5'
+
+    jarJar(implementation(api("org.hjson:hjson:3.1.0")))
+    additionalClasspath("org.hjson:hjson:3.1.0")
 
     api group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'
     annotationProcessor group: "io.github.llamalad7", name: 'mixinextras-neoforge', version: '0.4.1'

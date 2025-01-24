@@ -4,10 +4,10 @@ import net.minecraft.client.Minecraft;
 
 import java.util.Objects;
 
-public abstract class ClientRenderTickEvent implements ClientEvent {
+public abstract class ClientTickEvent implements ClientEvent {
     private final Minecraft client;
 
-    public ClientRenderTickEvent(Minecraft client) {
+    public ClientTickEvent(Minecraft client) {
         this.client = client;
     }
 
@@ -25,7 +25,7 @@ public abstract class ClientRenderTickEvent implements ClientEvent {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (ClientRenderTickEvent) obj;
+        var that = (ClientTickEvent) obj;
         return Objects.equals(this.client, that.client);
     }
 
@@ -34,13 +34,13 @@ public abstract class ClientRenderTickEvent implements ClientEvent {
         return Objects.hash(client);
     }
 
-    public static class Pre extends ClientRenderTickEvent {
+    public static class Pre extends ClientTickEvent {
         public Pre(Minecraft minecraft) {
             super(minecraft);
         }
     }
 
-    public static class Post extends ClientRenderTickEvent {
+    public static class Post extends ClientTickEvent {
         public Post(Minecraft minecraft) {
             super(minecraft);
         }

@@ -13,8 +13,9 @@ dependencies {
 
     modImplementation "maven.modrinth:modmenu:${modmenu_version}"
 
-    include api('io.projectreactor:reactor-core:3.5.5')
-    include api('org.reactivestreams:reactive-streams:1.0.4')
+    include library('io.projectreactor:reactor-core:3.5.5')
+    include library('org.reactivestreams:reactive-streams:1.0.4')
+    include library('org.hjson:hjson:3.1.0')
 }
 
 loom {
