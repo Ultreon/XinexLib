@@ -1,6 +1,7 @@
 package dev.ultreon.mods.xinexlib.client;
 
 import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenOpenEvent;
+import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPostInitEvent;
 import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPreInitEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.platform.XinexPlatform;
@@ -44,6 +45,6 @@ public class ForgeXinexLibClient {
 
     @SubscribeEvent
     public void onScreenPostInit(ScreenEvent.Init.Post event) {
-        EventSystem.MAIN.publish(new ClientScreenPreInitEvent(event.getScreen()));
+        EventSystem.MAIN.publish(new ClientScreenPostInitEvent(event.getScreen()));
     }
 }

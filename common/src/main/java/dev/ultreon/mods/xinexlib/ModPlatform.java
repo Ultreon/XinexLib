@@ -4,6 +4,7 @@ package dev.ultreon.mods.xinexlib;
 /// @since 0.1.0 (December 10, 2024)
 public enum ModPlatform {
     Fabric,
+    Quilt,
     Forge,
     NeoForge
 }
