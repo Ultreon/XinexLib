@@ -14,6 +14,7 @@ import dev.ultreon.mods.xinexlib.event.server.ServerStoppingEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.*;
 import net.minecraft.client.Minecraft;

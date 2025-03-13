@@ -13,9 +13,10 @@
     "MixinServerLevel"
   ],
   "client": [
-    "MixinClientPacketListener",
-    "MixinClientConnection",
-    "MixinMinecraft"
+    "client.MixinClientConnection",
+    "client.MixinClientPacketListener",
+    "client.MixinWindow",
+    "client.MixinMinecraft"
   ],
   "server": [],
   "injectors": {

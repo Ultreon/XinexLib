@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.mixin;
+package dev.ultreon.mods.xinexlib.mixin.client;
 
 import dev.ultreon.mods.xinexlib.client.XinexLibClient;
 import net.minecraft.network.Connection;

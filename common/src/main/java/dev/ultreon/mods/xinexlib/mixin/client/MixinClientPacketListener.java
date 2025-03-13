@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.mixin;
+package dev.ultreon.mods.xinexlib.mixin.client;
 
 import dev.ultreon.mods.xinexlib.client.event.LocalPlayerJoinEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;

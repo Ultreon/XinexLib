@@ -1,4 +1,4 @@
-package dev.ultreon.mods.xinexlib.mixin;
+package dev.ultreon.mods.xinexlib.mixin.client;
 
 import com.mojang.blaze3d.platform.Window;
 import dev.ultreon.mods.xinexlib.client.event.ClientTickEvent;
