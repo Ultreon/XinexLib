@@ -5,7 +5,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
@@ -17,9 +17,9 @@ import java.util.stream.Stream;
 public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplier<R, T> {
     private final DeferredHolder<T, R> holder;
     private final Registrar<T> registrar;
-    private final ResourceLocation id;
+    private final Identifier id;
 
-    public NeoForgeRegistrySupplier(DeferredHolder<T, R> holder, Registrar<T> registrar, ResourceLocation id) {
+    public NeoForgeRegistrySupplier(DeferredHolder<T, R> holder, Registrar<T> registrar, Identifier id) {
         this.holder = holder;
         this.registrar = registrar;
         this.id = id;
@@ -31,7 +31,7 @@ public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplie
     }
 
     @Override
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return id;
     }
 
@@ -51,8 +51,8 @@ public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplie
     }
 
     @Override
-    public boolean is(@NotNull ResourceLocation resourceLocation) {
-        return holder.is(resourceLocation);
+    public boolean is(@NotNull Identifier Identifier) {
+        return holder.is(Identifier);
     }
 
     @Override

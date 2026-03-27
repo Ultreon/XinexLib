@@ -27,16 +27,15 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Skeleton;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -44,7 +43,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.Random;
 
@@ -78,14 +79,13 @@ class XinexLibDev {
             }
 
             @Override
-            public void save(CompoundTag tag, HolderLookup.Provider registryLookup) {
+            public void save(@UnknownNullability ValueOutput tag, HolderLookup.Provider registryLookup) {
                 tag.putString("name", name);
             }
 
             @Override
             public void load(CompoundTag tag, HolderLookup.Provider registryLookup) {
-                name = tag.getString("name");
-                if (name.isBlank()) name = "John Doe";
+                name = tag.getStringOr("name", "John Doe");
             }
         }
 
@@ -150,12 +150,12 @@ class XinexLibDev {
         });
 
         EventSystem.MAIN.on(EntitySpawnEvent.FreshSpawnEvent.class, event -> {
-            if (event.getEntity() instanceof Zombie && event.getEntity().position().y > 64)
+            if (event.getEntity() instanceof net.minecraft.world.entity.monster.zombie.Zombie && event.getEntity().position().y > 64)
                 event.cancel();
         });
 
         EventSystem.MAIN.on(EntitySpawnEvent.ExistingSpawnEvent.class, event -> {
-            if (event.getEntity() instanceof Skeleton && event.getEntity().position().y > 64)
+            if (event.getEntity() instanceof net.minecraft.world.entity.monster.skeleton.Skeleton && event.getEntity().position().y > 64)
                 event.cancel();
         });
 
@@ -172,21 +172,21 @@ class XinexLibDev {
         });
 
         EventSystem.MAIN.on(UseEntityEvent.class, event -> {
-            if (event.getTarget() instanceof Chicken) {
-                if (!event.getLevel().isClientSide) event.getTarget().kill();
-                event.cancel(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+            if (event.getTarget() instanceof net.minecraft.world.entity.animal.chicken.Chicken) {
+                if (!event.getLevel().isClientSide()) event.getTarget().kill((ServerLevel) event.getLevel());
+                event.cancel(InteractionResult.PASS);
             }
         });
 
         EventSystem.MAIN.on(PlayerAttackEntityEvent.class, event -> {
-            if (event.getVictim() instanceof Chicken) {
+            if (event.getVictim() instanceof net.minecraft.world.entity.animal.chicken.Chicken) {
                 event.getVictim().level().explode(event.getVictim(), event.getVictim().position().x, event.getVictim().position().y, event.getVictim().position().z, 4, Level.ExplosionInteraction.MOB);
                 event.cancel();
             }
         });
 
         EventSystem.MAIN.on(LivingHurtEvent.class, event -> {
-            if (event.getVictim() instanceof Pig && event.getAttacker() instanceof Player attacker) {
+            if (event.getVictim() instanceof net.minecraft.world.entity.animal.pig.Pig && event.getAttacker() instanceof Player attacker) {
                 attacker.hurt(new DamageSource(event.getDamageSource().typeHolder(), event.getVictim(), event.getAttacker()), event.getAmount());
                 event.cancel();
             }
@@ -221,14 +221,14 @@ class XinexLibDev {
     private static @NotNull RegistrationInfo registrationTest() {
         RegistrarManager registrarManager = XinexPlatform.getRegistrarManager(Constants.MOD_ID);
         Registrar<Block> blockRegistrar = registrarManager.getRegistrar(Registries.BLOCK);
-        var testBlock = blockRegistrar.register("test_block", () -> new Block(BlockBehaviour.Properties.of().requiresCorrectToolForDrops()));
-        var secondBlock = blockRegistrar.register("second_block", () -> new Block(BlockBehaviour.Properties.of().requiresCorrectToolForDrops()));
+        var testBlock = blockRegistrar.register("test_block", () -> new Block(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, XinexLibCommon.id("test_block"))).requiresCorrectToolForDrops()));
+        var secondBlock = blockRegistrar.register("second_block", () -> new Block(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, XinexLibCommon.id("second_block"))).requiresCorrectToolForDrops()));
         Registrar<Item> itemRegistrar = registrarManager.getRegistrar(Registries.ITEM);
-        var testItem = itemRegistrar.register("test_item", () -> new Item(new Item.Properties().stacksTo(1)));
-        var testBlockItem = itemRegistrar.register("test_block_item", () -> new XinexBlockItem(testBlock, new Item.Properties().stacksTo(1)));
-        var secondBlockItem = itemRegistrar.register("second_block_item", () -> new XinexBlockItem(secondBlock, new Item.Properties().stacksTo(1)));
+        var testItem = itemRegistrar.register("test_item", () -> new Item(new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, XinexLibCommon.id("test_item")))));
+        var testBlockItem = itemRegistrar.register("test_block_item", () -> new XinexBlockItem(testBlock, new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, XinexLibCommon.id("test_block_item")))));
+        var secondBlockItem = itemRegistrar.register("second_block_item", () -> new XinexBlockItem(secondBlock, new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, XinexLibCommon.id("second_block_item")))));
         Registrar<CreativeModeTab> creativeModeTabRegistrar = registrarManager.getRegistrar(Registries.CREATIVE_MODE_TAB);
-        var testTab = creativeModeTabRegistrar.register("test_tab", () -> XinexPlatform.creativeTabBuilder().icon(() -> new ItemStack(testBlockItem)).displayItems((itemDisplayParameters, output) -> {
+        var testTab = creativeModeTabRegistrar.register("test_tab", () -> XinexPlatform.creativeTabBuilder().icon(() -> new ItemStack(testBlockItem)).displayItems((_, output) -> {
             output.accept(new ItemStack(testItem));
             output.accept(new ItemStack(testBlockItem));
             output.accept(new ItemStack(secondBlockItem));

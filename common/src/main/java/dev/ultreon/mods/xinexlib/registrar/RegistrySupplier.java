@@ -2,7 +2,7 @@ package dev.ultreon.mods.xinexlib.registrar;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Optional;
 
@@ -13,14 +13,14 @@ import java.util.Optional;
 public interface RegistrySupplier<R extends T, T> extends Holder<T> {
     /// Gets the value if it is bound
     default R get() {
-        return asOptional().orElseThrow(() -> new IllegalStateException("Value " + getId() + " in registry " + registry().key().location() + " is not bound!"));
+        return asOptional().orElseThrow(() -> new IllegalStateException("Value " + getId() + " in registry " + registry().key().identifier() + " is not bound!"));
     }
 
     /// Gets the value if it is bound
     Optional<R> asOptional();
 
     /// The id of this value
-    ResourceLocation getId();
+    Identifier getId();
 
     /// The registry this supplier belongs to
     Registry<T> registry();

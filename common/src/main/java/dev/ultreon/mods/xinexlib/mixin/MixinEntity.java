@@ -7,10 +7,12 @@ import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import dev.ultreon.mods.xinexlib.components.SimpleComponentManager;
 import dev.ultreon.mods.xinexlib.components.Component;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,40 +23,40 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity implements EntityComponentAccess {
     @Unique
-    private final Map<ResourceLocation, Component<Entity>> xinexlib$components = new HashMap<>();
+    private final Map<Identifier, Component<Entity>> xinexlib$components = new HashMap<>();
 
     @Inject(method = "saveWithoutId", at = @At("HEAD"))
-    private void addAdditionalSaveData(CompoundTag pCompound, CallbackInfoReturnable<CompoundTag> cir) {
+    private void addAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
-        CompoundTag extraData = pCompound.getCompound("XinexLibExtraData");
+        ValueOutput extraData = output.child("XinexLibExtraData");
         EventSystem.MAIN.publish(new EntitySaveEvent(entity, extraData));
-        pCompound.put("XinexLibExtraData", extraData);
     }
 
     @Inject(method = "load", at = @At("HEAD"))
-    private void load(CompoundTag pCompound, CallbackInfo ci) {
+    private void load(ValueInput pCompound, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
-        CompoundTag extraData = pCompound.getCompound("XinexLibExtraData");
+        Optional<ValueInput> extraData = pCompound.child("XinexLibExtraData");
         if (extraData.isEmpty()) return;
         EventSystem.MAIN.publish(new EntityLoadEvent(entity, extraData));
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void init(EntityType entityType, Level level, CallbackInfo ci) {
+    private void init(EntityType<?> entityType, Level level, CallbackInfo ci) {
         SimpleComponentManager.installComponents((Entity) (Object) this);
     }
 
     @Override
-    public <T extends Component<Entity>> T xinexlib$getComponent(ResourceLocation name, Class<T> clazz) {
+    public <T extends Component<Entity>> T xinexlib$getComponent(Identifier name, Class<T> clazz) {
         return clazz.cast(xinexlib$components.get(name));
     }
 
     @Override
-    public <T extends Component<Entity>> void xinexlib$setComponent(ResourceLocation name, T component) {
+    public <T extends Component<Entity>> void xinexlib$setComponent(Identifier name, T component) {
         if (component == null) {
             xinexlib$components.remove(name);
             return;
@@ -63,7 +65,7 @@ public abstract class MixinEntity implements EntityComponentAccess {
     }
 
     @Override
-    public Map<ResourceLocation, Component<Entity>> xinexlib$getAllComponents() {
+    public Map<Identifier, Component<Entity>> xinexlib$getAllComponents() {
         return Collections.unmodifiableMap(xinexlib$components);
     }
 }

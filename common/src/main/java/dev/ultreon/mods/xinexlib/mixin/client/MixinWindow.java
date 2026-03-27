@@ -65,7 +65,7 @@ public abstract class MixinWindow {
         if (cir.getReturnValue()) {
             WindowCloseEvent publish = EventSystem.MAIN.publish(new WindowCloseEvent((Window) (Object) this));
             if (publish.isCanceled()) {
-                GLFW.glfwSetWindowShouldClose(((Window) (Object) this).getWindow(), false);
+                GLFW.glfwSetWindowShouldClose(((Window) (Object) this).handle(), false);
                 cir.setReturnValue(false);
             }
         }

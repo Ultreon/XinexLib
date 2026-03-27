@@ -1,12 +1,16 @@
 package dev.ultreon.mods.xinexlib.dev.entity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.NonNull;
 
 public class TestEntity extends Entity {
     private static final EntityDataAccessor<Integer> DATA_TICKS_ID = SynchedEntityData.defineId(TestEntity.class, EntityDataSerializers.INT);
@@ -21,12 +25,17 @@ public class TestEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compoundTag) {
+    public boolean hurtServer(@NonNull ServerLevel level, @NonNull DamageSource source, float damage) {
+        return false;
+    }
+
+    @Override
+    protected void readAdditionalSaveData(@NonNull ValueInput input) {
 
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compoundTag) {
+    protected void addAdditionalSaveData(@NonNull ValueOutput output) {
 
     }
 }

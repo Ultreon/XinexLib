@@ -6,7 +6,7 @@ import dev.ultreon.mods.xinexlib.network.packet.Packet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -30,7 +30,7 @@ public class NeoForgeNetworkRegistry implements NetworkRegistry {
 
     @Override
     public <T extends Packet<T> & ClientEndpoint> void registerClient(String name, Class<T> clazz, PacketReader<T> reader) {
-        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
+        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(Identifier.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
 
         this.registrar.playToClient(type, StreamCodec.of(
@@ -41,7 +41,7 @@ public class NeoForgeNetworkRegistry implements NetworkRegistry {
 
     @Override
     public <T extends Packet<T> & ServerEndpoint> void registerServer(String name, Class<T> clazz, PacketReader<T> reader) {
-        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
+        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(Identifier.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
         
         this.registrar.playToServer(type, StreamCodec.of(
@@ -52,7 +52,7 @@ public class NeoForgeNetworkRegistry implements NetworkRegistry {
 
     @Override
     public <T extends Packet<T> & ServerEndpoint & ClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, PacketReader<T> reader) {
-        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
+        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(Identifier.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, type);
         
         StreamCodec<RegistryFriendlyByteBuf, PayloadWrapper<T>> codec = StreamCodec.of(

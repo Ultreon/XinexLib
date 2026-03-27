@@ -3,9 +3,10 @@ package dev.ultreon.mods.xinexlib.registrar;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -28,12 +29,12 @@ public class FabricRegistrar<T> implements Registrar<T> {
     @Override
     public <R extends T> RegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
         if (registry != null) {
-            ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(modId, name);
-            FabricRegistrySupplier<R, T> rtFabricRegistrySupplier = new FabricRegistrySupplier<R, T>(this, ResourceKey.<R>create((ResourceKey) key, resourceLocation)) {
+            Identifier Identifier = net.minecraft.resources.Identifier.fromNamespaceAndPath(modId, name);
+            FabricRegistrySupplier<R, T> rtFabricRegistrySupplier = new FabricRegistrySupplier<R, T>(this, ResourceKey.<R>create((ResourceKey) key, Identifier)) {
                 @Override
                 protected void register() {
                     this.value = supplier.get();
-                    Registry.register(registry, ResourceLocation.fromNamespaceAndPath(modId, name), this.value);
+                    Registry.register(registry, Identifier.fromNamespaceAndPath(modId, name), this.value);
                 }
             };
             this.suppliers.add(rtFabricRegistrySupplier);
@@ -62,12 +63,12 @@ public class FabricRegistrar<T> implements Registrar<T> {
     }
 
     public Registrar<T> create() {
-        this.registry = FabricRegistryBuilder.createSimple(key).attribute(RegistryAttribute.MODDED).buildAndRegister();
+        this.registry = FabricRegistryBuilder.create(key).attribute(RegistryAttribute.MODDED).buildAndRegister();
         return this;
     }
 
     public Registrar<T> retrieve() {
-        this.registry = BuiltInRegistries.REGISTRY.get((ResourceKey) key);
+        this.registry = (Registry<T>) BuiltInRegistries.REGISTRY.getOptional((ResourceKey) key).orElseThrow();
         return this;
     }
 }

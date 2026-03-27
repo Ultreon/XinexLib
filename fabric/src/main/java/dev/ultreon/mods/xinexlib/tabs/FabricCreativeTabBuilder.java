@@ -1,8 +1,8 @@
 package dev.ultreon.mods.xinexlib.tabs;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,7 +12,7 @@ public class FabricCreativeTabBuilder implements CreativeModeTabBuilder {
     private final CreativeModeTab.Builder builder;
 
     public FabricCreativeTabBuilder() {
-        this.builder = FabricItemGroup.builder();
+        this.builder = FabricCreativeModeTab.builder();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class FabricCreativeTabBuilder implements CreativeModeTabBuilder {
     }
 
     @Override
-    public CreativeModeTabBuilder background(ResourceLocation background) {
+    public CreativeModeTabBuilder background(Identifier background) {
         builder.backgroundTexture(background);
         return this;
     }

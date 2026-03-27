@@ -1,7 +1,7 @@
 package dev.ultreon.mods.xinexlib.tabs;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
@@ -13,7 +13,7 @@ public interface CreativeModeTabBuilder {
 
     CreativeModeTabBuilder icon(Supplier<ItemStack> icon);
 
-    CreativeModeTabBuilder background(ResourceLocation background);
+    CreativeModeTabBuilder background(Identifier background);
 
     CreativeModeTabBuilder noScrollBar();
 

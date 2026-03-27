@@ -1,7 +1,7 @@
 package dev.ultreon.mods.xinexlib.tabs;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
@@ -27,7 +27,7 @@ public class NeoForgeCreativeTabBuilder implements CreativeModeTabBuilder {
     }
 
     @Override
-    public CreativeModeTabBuilder background(ResourceLocation background) {
+    public CreativeModeTabBuilder background(Identifier background) {
         builder.backgroundTexture(background);
         return this;
     }

@@ -1,6 +1,7 @@
 package dev.ultreon.mods.xinexlib.event.entity;
 
 import dev.ultreon.mods.xinexlib.event.system.Cancelable;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +15,7 @@ public class LivingHurtEvent implements Cancelable {
     private boolean canceled;
     private float amount;
 
-    public LivingHurtEvent(@Nullable Entity attacker, LivingEntity victim, DamageSource damageSource, float amount) {
+    public LivingHurtEvent(ServerLevel level, @Nullable Entity attacker, LivingEntity victim, DamageSource damageSource, float amount) {
         this.attacker = attacker;
         this.victim = victim;
         this.damageSource = damageSource;

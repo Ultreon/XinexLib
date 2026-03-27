@@ -31,7 +31,7 @@ public abstract class MixinMinecraft {
     private void shutdown(CallbackInfo ci) {
         ClientStoppingEvent event = EventSystem.MAIN.publish(new ClientStoppingEvent((Minecraft) (Object) this));
         if (event.isCanceled()) {
-            GLFW.glfwSetWindowShouldClose(window.getWindow(), false);
+            GLFW.glfwSetWindowShouldClose(window.handle(), false);
             ci.cancel();
         } else {
             EventSystem.MAIN.publish(new ClientStoppedEvent((Minecraft) (Object) this));

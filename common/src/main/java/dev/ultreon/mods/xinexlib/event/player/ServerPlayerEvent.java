@@ -29,11 +29,11 @@ public interface ServerPlayerEvent extends PlayerEvent, ServerLevelEvent {
 
     @Override
     default MinecraftServer getServer() {
-        return getPlayer().getServer();
+        return getPlayer().level().getServer();
     }
 
     @Override
     default ServerLevel getServerLevel() {
-        return getPlayer().serverLevel();
+        return getPlayer().level();
     }
 }

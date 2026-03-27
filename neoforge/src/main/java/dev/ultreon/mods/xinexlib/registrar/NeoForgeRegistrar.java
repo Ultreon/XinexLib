@@ -1,7 +1,7 @@
 package dev.ultreon.mods.xinexlib.registrar;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
@@ -25,7 +25,7 @@ public class NeoForgeRegistrar<T> implements Registrar<T> {
 
     @Override
     public <R extends T> RegistrySupplier<R, T> register(String name, Supplier<R> supplier) {
-        NeoForgeRegistrySupplier<R, T> rtNeoForgeRegistrySupplier = new NeoForgeRegistrySupplier<>(deferredRegister.register(name, supplier), this, ResourceLocation.fromNamespaceAndPath(deferredRegister.getNamespace(), name));
+        NeoForgeRegistrySupplier<R, T> rtNeoForgeRegistrySupplier = new NeoForgeRegistrySupplier<>(deferredRegister.register(name, supplier), this, Identifier.fromNamespaceAndPath(deferredRegister.getNamespace(), name));
         this.values.add(rtNeoForgeRegistrySupplier);
         return rtNeoForgeRegistrySupplier;
     }

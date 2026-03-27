@@ -8,6 +8,8 @@ public class DevClientPlayHandlerImpl extends DevClientPlayHandler {
     @Override
     public void handle(PacketToClient packet) {
         String message = packet.message();
-        Minecraft.getInstance().player.displayClientMessage(Component.literal(message), true);
+        if (Minecraft.getInstance().player != null) {
+            Minecraft.getInstance().player.sendOverlayMessage(Component.literal(message));
+        }
     }
 }

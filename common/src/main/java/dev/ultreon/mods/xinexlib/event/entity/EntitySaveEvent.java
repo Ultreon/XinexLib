@@ -1,15 +1,17 @@
 package dev.ultreon.mods.xinexlib.event.entity;
 
 import dev.ultreon.mods.xinexlib.nbt.DataKey;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.storage.ValueOutput;
+
+import java.util.function.Consumer;
 
 public class EntitySaveEvent implements EntityEvent {
     private final Entity entity;
-    private final CompoundTag extraData;
+    private final ValueOutput extraData;
 
-    public EntitySaveEvent(Entity entity, CompoundTag extraData) {
+    public EntitySaveEvent(Entity entity, ValueOutput extraData) {
         this.entity = entity;
         this.extraData = extraData;
     }
@@ -19,14 +21,11 @@ public class EntitySaveEvent implements EntityEvent {
         return entity;
     }
 
-    public Tag getExtraData(DataKey<Entity> key) {
-        if (!extraData.contains(key.getKey(entity), Tag.TAG_COMPOUND)) {
-            extraData.put(key.getKey(entity), new CompoundTag());
-        }
-        return extraData.get(key.getKey(entity));
+    public ValueOutput getExtraData(DataKey<Entity> key) {
+        return extraData.child(key.getKey(entity));
     }
 
-    public void setExtraData(DataKey<Entity> key, Tag data) {
-        extraData.put(key.getKey(entity), data);
+    public void setExtraData(DataKey<Entity> key, Consumer<ValueOutput> outputConsumer) {
+        outputConsumer.accept(extraData.child(key.getKey(entity)));
     }
 }

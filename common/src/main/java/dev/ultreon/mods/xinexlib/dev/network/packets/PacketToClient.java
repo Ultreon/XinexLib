@@ -6,7 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 
 public record PacketToClient(
-    String message
+        String message
 ) implements dev.ultreon.mods.xinexlib.network.packet.PacketToClient<PacketToClient> {
 
     public static PacketToClient read(RegistryFriendlyByteBuf buf) {
@@ -20,7 +20,9 @@ public record PacketToClient(
 
     @Override
     public void handle(Networker networker) {
-        Minecraft.getInstance().player.displayClientMessage(Component.literal(message), true);
+        if (Minecraft.getInstance().player != null) {
+            Minecraft.getInstance().player.sendOverlayMessage(Component.literal(message));
+        }
         System.out.println(message);
     }
 }

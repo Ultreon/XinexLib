@@ -4,7 +4,6 @@ import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPostInitEvent;
 import dev.ultreon.mods.xinexlib.client.event.screen.ClientScreenPreInitEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseBlockEvent;
 import dev.ultreon.mods.xinexlib.event.interact.UseEntityEvent;
-import dev.ultreon.mods.xinexlib.event.interact.UseItemEvent;
 import dev.ultreon.mods.xinexlib.event.player.PlayerAttackEntityEvent;
 import dev.ultreon.mods.xinexlib.event.player.PlayerBreakBlockEvent;
 import dev.ultreon.mods.xinexlib.event.server.ServerStartedEvent;
@@ -14,7 +13,6 @@ import dev.ultreon.mods.xinexlib.event.server.ServerStoppingEvent;
 import dev.ultreon.mods.xinexlib.event.system.EventSystem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.*;
 import net.minecraft.client.Minecraft;
@@ -23,10 +21,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,11 +53,6 @@ public class FabricXinexLib implements ModInitializer {
 
     private static void afterBlockBreak(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
         EventSystem.MAIN.publish(new PlayerBreakBlockEvent(state, pos, world, player));
-    }
-
-    private static InteractionResultHolder<ItemStack> interactItem(Player player, Level level, InteractionHand interactionHand) {
-        InteractionResult publish = EventSystem.MAIN.publish(new UseItemEvent(player, level, interactionHand).get());
-        return new InteractionResultHolder<>(publish, player.getItemInHand(interactionHand));
     }
 
     private static InteractionResult interactEntity(Player player, Level level, InteractionHand interactionHand, Entity entity, @Nullable EntityHitResult entityHitResult) {
@@ -104,7 +95,6 @@ public class FabricXinexLib implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPED.register(FabricXinexLib::onServerStopped);
 
         UseBlockCallback.EVENT.register(FabricXinexLib::interact);
-        UseItemCallback.EVENT.register(FabricXinexLib::interactItem);
         UseEntityCallback.EVENT.register(FabricXinexLib::interactEntity);
 
         AttackEntityCallback.EVENT.register(FabricXinexLib::attackEntity);

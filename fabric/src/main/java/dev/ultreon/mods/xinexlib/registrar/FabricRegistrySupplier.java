@@ -4,10 +4,12 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -24,13 +26,23 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements Registry
     }
 
     @Override
+    public boolean areComponentsBound() {
+        return value != null;
+    }
+
+    @Override
+    public @NonNull DataComponentMap components() {
+        return DataComponentMap.EMPTY;
+    }
+
+    @Override
     public Optional<R> asOptional() {
         return Optional.ofNullable(value);
     }
 
     @Override
-    public ResourceLocation getId() {
-        return key.location();
+    public Identifier getId() {
+        return key.identifier();
     }
 
     @Override
@@ -40,7 +52,7 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements Registry
 
     @Override
     public @NotNull R value() {
-        return asOptional().orElseThrow(() -> new IllegalStateException("Value " + getId() + " in registry " + registry().key().location() + " is not bound!"));
+        return asOptional().orElseThrow(() -> new IllegalStateException("Value " + getId() + " in registry " + registry().key().identifier() + " is not bound!"));
     }
 
     @Override
@@ -49,12 +61,12 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements Registry
     }
 
     @Override
-    public boolean is(ResourceLocation location) {
-        return this.key.location().equals(location);
+    public boolean is(@NonNull Identifier location) {
+        return this.key.identifier().equals(location);
     }
 
     @Override
-    public boolean is(ResourceKey<T> resourceKey) {
+    public boolean is(@NonNull ResourceKey<T> resourceKey) {
         return this.key.equals(resourceKey);
     }
 
@@ -64,27 +76,27 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements Registry
     }
 
     @Override
-    public boolean is(TagKey<T> tagKey) {
+    public boolean is(@NonNull TagKey<T> tagKey) {
         return false;
     }
 
     @Override
-    public boolean is(Holder<T> holder) {
+    public boolean is(@NonNull Holder<T> holder) {
         return false;
     }
 
     @Override
-    public Stream<TagKey<T>> tags() {
+    public @NonNull Stream<TagKey<T>> tags() {
         return Stream.empty();
     }
 
     @Override
-    public Either<ResourceKey<T>, T> unwrap() {
+    public @NonNull Either<ResourceKey<T>, T> unwrap() {
         return Either.right(value);
     }
 
     @Override
-    public Optional<ResourceKey<T>> unwrapKey() {
+    public @NonNull Optional<ResourceKey<T>> unwrapKey() {
         return Optional.of((ResourceKey<T>) key);
     }
 
@@ -94,7 +106,7 @@ public abstract class FabricRegistrySupplier<R extends T, T> implements Registry
     }
 
     @Override
-    public boolean canSerializeIn(HolderOwner<T> owner) {
+    public boolean canSerializeIn(@NonNull HolderOwner<T> owner) {
         return owner instanceof Registry;
     }
 

@@ -11,7 +11,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +28,10 @@ public class FabricNetworkRegistry implements NetworkRegistry {
 
     @Override
     public <T extends Packet<T> & ClientEndpoint> void registerClient(String name, Class<T> clazz, PacketReader<T> reader) {
-        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
+        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(Identifier.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, (CustomPacketPayload.Type) type);
 
-        PayloadTypeRegistry.playS2C().register(type,
+        PayloadTypeRegistry.clientboundPlay().register(type,
                 StreamCodec.of(
                         (buf, wrapper) -> wrapper.write(buf),
                         (buf) -> new PayloadWrapper<>(type, reader.read(buf))
@@ -42,10 +42,10 @@ public class FabricNetworkRegistry implements NetworkRegistry {
 
     @Override
     public <T extends Packet<T> & ServerEndpoint> void registerServer(String name, Class<T> clazz, PacketReader<T> reader) {
-        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
+        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(Identifier.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, (CustomPacketPayload.Type) type);
 
-        PayloadTypeRegistry.playC2S().register(type,
+        PayloadTypeRegistry.serverboundPlay().register(type,
                 StreamCodec.of(
                         (buf, wrapper) -> wrapper.write(buf),
                         (buf) -> new PayloadWrapper<>(type, reader.read(buf))
@@ -55,15 +55,15 @@ public class FabricNetworkRegistry implements NetworkRegistry {
 
     @Override
     public <T extends Packet<T> & ServerEndpoint & ClientEndpoint> void registerBiDirectional(String name, Class<T> clazz, PacketReader<T> reader) {
-        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(ResourceLocation.fromNamespaceAndPath(modId, name));
+        var type = new CustomPacketPayload.Type<PayloadWrapper<T>>(Identifier.fromNamespaceAndPath(modId, name));
         this.typeRegistry.put(clazz, (CustomPacketPayload.Type) type);
 
         StreamCodec<RegistryFriendlyByteBuf, PayloadWrapper<T>> codec = StreamCodec.of(
                 (buf, wrapper) -> wrapper.write(buf),
                 (buf) -> new PayloadWrapper<>(type, reader.read(buf))
         );
-        PayloadTypeRegistry.playS2C().register(type, codec);
-        PayloadTypeRegistry.playC2S().register(type, codec);
+        PayloadTypeRegistry.clientboundPlay().register(type, codec);
+        PayloadTypeRegistry.serverboundPlay().register(type, codec);
         if (XinexPlatform.getEnv() == Env.CLIENT)
             ClientPlayNetworking.registerGlobalReceiver(type, (packet, context) -> packet.packet.handle(networker));
         ServerPlayNetworking.registerGlobalReceiver(type, (packet, context) -> packet.packet.handle(networker, context.player()));
