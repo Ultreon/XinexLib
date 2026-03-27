@@ -17,6 +17,6 @@ public abstract class MixinLivingEntity {
         Entity entity = source.getEntity();
         LivingHurtEvent event = EventSystem.MAIN.publish(new LivingHurtEvent(level, entity == null ? source.getDirectEntity() : entity, (LivingEntity) (Object) this, source, damage));
         if (event.isCanceled()) return false;
-        return original.call(source, event.getAmount());
+        return original.call(level, source, event.getAmount());
     }
 }
