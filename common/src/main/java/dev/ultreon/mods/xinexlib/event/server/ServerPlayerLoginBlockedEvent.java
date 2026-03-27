@@ -1,17 +1,17 @@
 package dev.ultreon.mods.xinexlib.event.server;
 
-import com.mojang.authlib.GameProfile;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.players.NameAndId;
 
 import java.net.SocketAddress;
 import java.util.Objects;
 
 public class ServerPlayerLoginBlockedEvent {
     private final SocketAddress socketAddress;
-    private final GameProfile gameProfile;
+    private final NameAndId gameProfile;
     private final Component reason;
 
-    public ServerPlayerLoginBlockedEvent(SocketAddress socketAddress, GameProfile gameProfile, Component reason) {
+    public ServerPlayerLoginBlockedEvent(SocketAddress socketAddress, NameAndId gameProfile, Component reason) {
         this.socketAddress = socketAddress;
         this.gameProfile = gameProfile;
         this.reason = reason;
@@ -21,7 +21,7 @@ public class ServerPlayerLoginBlockedEvent {
         return socketAddress;
     }
 
-    public GameProfile getGameProfile() {
+    public NameAndId getGameProfile() {
         return gameProfile;
     }
 

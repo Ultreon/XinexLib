@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.CommonListenerCookie;
+import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.PlayerList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -62,24 +63,24 @@ public abstract class MixinPlayerList {
     }
 
     @Inject(method = "canPlayerLogin", at = @At(value = "HEAD"), cancellable = true)
-    private void handleLoginVerifying(SocketAddress pSocketAddress, GameProfile pGameProfile, CallbackInfoReturnable<Component> cir) {
+    private void handleLoginVerifying(SocketAddress address, NameAndId nameAndId, CallbackInfoReturnable<Component> cir) {
         ServerPlayerVerifyLoginEvent event = EventSystem.MAIN.publish(new ServerPlayerVerifyLoginEvent(
-                pSocketAddress,
-                pGameProfile
+                address,
+                nameAndId
         ));
 
         if (event.isCanceled()) {
             Component reason = event.get();
             if (reason == null) reason = Component.literal("Connection blocked due to unknown reason.");
-            EventSystem.MAIN.publish(new ServerPlayerLoginBlockedEvent(pSocketAddress, pGameProfile, reason));
+            EventSystem.MAIN.publish(new ServerPlayerLoginBlockedEvent(address, nameAndId, reason));
             cir.setReturnValue(reason);
         }
     }
 
     @Inject(method = "canPlayerLogin", at = @At(value = "RETURN"))
-    private void handleLoginBlocked(SocketAddress pSocketAddress, GameProfile pGameProfile, CallbackInfoReturnable<Component> cir) {
+    private void handleLoginBlocked(SocketAddress pSocketAddress, NameAndId nameAndId, CallbackInfoReturnable<Component> cir) {
         Component reason = cir.getReturnValue();
         if (reason != null)
-            EventSystem.MAIN.publish(new ServerPlayerLoginBlockedEvent(pSocketAddress, pGameProfile, reason));
+            EventSystem.MAIN.publish(new ServerPlayerLoginBlockedEvent(pSocketAddress, nameAndId, reason));
     }
 }

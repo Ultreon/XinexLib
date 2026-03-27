@@ -1,8 +1,8 @@
 package dev.ultreon.mods.xinexlib.event.server;
 
-import com.mojang.authlib.GameProfile;
 import dev.ultreon.mods.xinexlib.event.CancelableValue;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.players.NameAndId;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.SocketAddress;
@@ -10,11 +10,11 @@ import java.util.Objects;
 
 public class ServerPlayerVerifyLoginEvent implements CancelableValue<Component> {
     private final SocketAddress address;
-    private final GameProfile profile;
+    private final NameAndId profile;
     private Component reason = Component.literal("Connection blocked due to unknown reason.");
     private boolean canceled = false;
 
-    public ServerPlayerVerifyLoginEvent(SocketAddress address, GameProfile profile) {
+    public ServerPlayerVerifyLoginEvent(SocketAddress address, NameAndId profile) {
         this.address = address;
         this.profile = profile;
     }
@@ -23,7 +23,7 @@ public class ServerPlayerVerifyLoginEvent implements CancelableValue<Component> 
         return address;
     }
 
-    public GameProfile getProfile() {
+    public NameAndId getNameAndId() {
         return profile;
     }
 
