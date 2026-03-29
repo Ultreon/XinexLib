@@ -19,8 +19,8 @@ import java.util.function.Supplier;
 
 public class FabricEntityRendererRegistry implements EntityRendererRegistry {
     @Override
-    public <T extends BlockEntity, S extends BlockEntityRenderState> void register(Holder<BlockEntityType<T>> entity, BlockEntityRendererProvider<T, S> provider) {
-        BlockEntityRenderers.register(entity.value(), provider);
+    public <T extends BlockEntity, S extends BlockEntityRenderState> void register(Supplier<BlockEntityType<T>> entity, BlockEntityRendererProvider<T, S> provider) {
+        BlockEntityRenderers.register(entity.get(), provider);
     }
 
     @Override

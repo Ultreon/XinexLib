@@ -17,7 +17,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -40,7 +39,7 @@ public class NeoForgePlatform implements Platform {
     public NeoForgePlatform() {
         platform = this;
 
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             client = new NeoForgeClientPlatform();
         }
 
@@ -67,7 +66,7 @@ public class NeoForgePlatform implements Platform {
 
     @Override
     public boolean isDevelopmentEnvironment() {
-        return !FMLLoader.isProduction();
+        return !FMLEnvironment.isProduction();
     }
 
     @Override
@@ -91,7 +90,7 @@ public class NeoForgePlatform implements Platform {
 
     @Override
     public Env getEnv() {
-        return switch (FMLEnvironment.dist) {
+        return switch (FMLEnvironment.getDist()) {
             case CLIENT -> Env.CLIENT;
             case DEDICATED_SERVER -> Env.SERVER;
         };
@@ -109,7 +108,7 @@ public class NeoForgePlatform implements Platform {
 
     @Override
     public ClientPlatform client() {
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             return client;
         }
         throw new IllegalStateException("This method should only be called on the client");

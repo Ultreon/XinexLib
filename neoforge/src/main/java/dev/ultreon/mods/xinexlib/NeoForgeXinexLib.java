@@ -44,7 +44,7 @@ public class NeoForgeXinexLib {
 
         eventBus.addListener(FMLCommonSetupEvent.class, fmlCommonSetupEvent -> EventSystem.MAIN.publish(SetupEvent.COMMON));
 
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             NeoForgeXinexLibClient.init();
         }
     }

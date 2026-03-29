@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import java.util.function.Supplier;
 
 public interface EntityRendererRegistry {
-    <T extends BlockEntity, S extends BlockEntityRenderState> void register(Holder<BlockEntityType<T>> entity, BlockEntityRendererProvider<T, S> provider);
+    <T extends BlockEntity, S extends BlockEntityRenderState> void register(Supplier<BlockEntityType<T>> entity, BlockEntityRendererProvider<T, S> provider);
 
     <T extends Entity> void register(Supplier<EntityType<T>> entity, EntityRendererProvider<T> provider);
 

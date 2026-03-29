@@ -5,6 +5,7 @@ import dev.ultreon.mods.xinexlib.client.LayerDefinitionProvider;
 import dev.ultreon.mods.xinexlib.platform.services.EntityRendererRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
@@ -20,16 +21,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class NeoForgeEntityRendererRegistry implements EntityRendererRegistry {
-    private static final Map<Holder<BlockEntityType<?>>, BlockEntityRendererProvider<?>> BLOCK_ENTITY_RENDERERS = new HashMap<>();
+    private static final Map<Supplier<BlockEntityType<?>>, BlockEntityRendererProvider<?, ?>> BLOCK_ENTITY_RENDERERS = new HashMap<>();
     private static final Map<Supplier<EntityType<?>>, EntityRendererProvider<?>> ENTITY_RENDERERS = new HashMap<>();
     private static final Map<ModelLayerLocation, LayerDefinitionProvider> MODEL_LAYERS = new HashMap<>();
 
     @Override
-    public <T extends BlockEntity> void register(Holder<BlockEntityType<T>> entity, BlockEntityRendererProvider<T> provider) {
+    public <T extends BlockEntity, S extends BlockEntityRenderState> void register(Supplier<BlockEntityType<T>> entity, BlockEntityRendererProvider<T, S> provider) {
         //noinspection unchecked
-        BLOCK_ENTITY_RENDERERS.put((Holder) entity, provider);
+        BLOCK_ENTITY_RENDERERS.put((Supplier) entity, provider);
     }
 
     @Override
@@ -44,12 +45,12 @@ public class NeoForgeEntityRendererRegistry implements EntityRendererRegistry {
 
     @SubscribeEvent
     public static void onRenderersRegister(EntityRenderersEvent.RegisterRenderers event) {
-        for (Map.Entry<Holder<BlockEntityType<?>>, BlockEntityRendererProvider<?>> entry : BLOCK_ENTITY_RENDERERS.entrySet()) {
-            BlockEntityType<?> blockEntityType = entry.getKey().value();
-            BlockEntityRendererProvider<?> blockEntityRendererProvider = entry.getValue();
+        for (Map.Entry<Supplier<BlockEntityType<?>>, BlockEntityRendererProvider<?, ?>> entry : BLOCK_ENTITY_RENDERERS.entrySet()) {
+            BlockEntityType<?> blockEntityType = entry.getKey().get();
+            BlockEntityRendererProvider<?, ?> blockEntityRendererProvider = entry.getValue();
 
             //noinspection unchecked
-            event.registerBlockEntityRenderer(blockEntityType, (BlockEntityRendererProvider<BlockEntity>) blockEntityRendererProvider);
+            event.registerBlockEntityRenderer(blockEntityType, (BlockEntityRendererProvider<BlockEntity, ?>) blockEntityRendererProvider);
         }
 
         for (Map.Entry<Supplier<EntityType<?>>, EntityRendererProvider<?>> entry : ENTITY_RENDERERS.entrySet()) {

@@ -4,11 +4,13 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -51,6 +53,11 @@ public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplie
     }
 
     @Override
+    public boolean areComponentsBound() {
+        return holder.areComponentsBound();
+    }
+
+    @Override
     public boolean is(@NotNull Identifier Identifier) {
         return holder.is(Identifier);
     }
@@ -66,6 +73,7 @@ public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplie
     }
 
     @Override
+    @Deprecated
     public boolean is(@NotNull Holder<T> holder) {
         return this.holder.is(holder);
     }
@@ -73,6 +81,11 @@ public class NeoForgeRegistrySupplier<R extends T, T> implements RegistrySupplie
     @Override
     public @NotNull Stream<TagKey<T>> tags() {
         return holder.tags();
+    }
+
+    @Override
+    public @NonNull DataComponentMap components() {
+        return holder.components();
     }
 
     @Override
